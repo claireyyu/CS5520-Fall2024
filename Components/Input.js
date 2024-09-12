@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, TextInput } from 'react-native'
 import { useState } from 'react';
 import React from 'react'
 
-export default function Input() {
+export default function Input(prop) {
   const [text, setText] = useState("");
     
   return (
