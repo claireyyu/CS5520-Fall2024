@@ -5,8 +5,11 @@ export default function App() {
   const appName = "my App";
   return (
     <View style={styles.container}>
-      < Header name={ appName } />
-    </View>
+      < Header name={appName} >
+        <Text>child 1</Text>  
+        <Text>child 2</Text> 
+      </Header>
+    </ View>
   );
 }
 
