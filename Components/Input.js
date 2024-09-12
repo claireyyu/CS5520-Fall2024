@@ -7,7 +7,8 @@ export default function Input(prop) {
     
   return (
     <View>
-        < TextInput
+          < TextInput
+        autoFocus={prop.autoFocus}
         placeholder="Enter your name"
         keyboardType='default'
         style={{ borderBottomColor: "purple", borderWidth: 2 }}
