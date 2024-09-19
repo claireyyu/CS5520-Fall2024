@@ -54,7 +54,7 @@ export default function Input({ textInputFocus, inputHandler, modalVisible }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "skyblue",
+    backgroundColor: "pink",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -67,7 +67,6 @@ const styles = StyleSheet.create({
   buttonStyle: {
     width: "30%",
     marginVertical: 15,
-    backgroundColor: "yellow",
   }
   
 });
