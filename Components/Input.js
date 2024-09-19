@@ -1,4 +1,4 @@
-import { Button, StyleSheet, Text, TextInput, View } from "react-native";
+import { Button, StyleSheet, Text, TextInput, View, Modal } from "react-native";
 import React, { useState } from "react";
 
 export default function Input({ textInputFocus, inputHandler }) {
@@ -15,35 +15,44 @@ export default function Input({ textInputFocus, inputHandler }) {
   }
 
   return (
-    <>
-      <TextInput
-        autoFocus={textInputFocus}
-        placeholder="Type something"
-        keyboardType="default"
-        value={text}
-        style={{ borderBottomColor: "purple", borderBottomWidth: 2 }}
-        onChangeText={handleChangeText}
-        onBlur={() => {
-          setBlur(true);
-        }}
-        onFocus={() => {
-          setBlur(false);
-        }}
-      />
+    <Modal animationType="slide">
+      <View style={styles.container}>
+        <TextInput
+          autoFocus={textInputFocus}
+          placeholder="Type something"
+          keyboardType="default"
+          value={text}
+          style={{ borderBottomColor: "purple", borderBottomWidth: 2 }}
+          onChangeText={handleChangeText}
+          onBlur={() => {
+            setBlur(true);
+          }}
+          onFocus={() => {
+            setBlur(false);
+          }}
+        />
 
-      {blur ? (
-        text.length >= 3 ? (
-          <Text>Thank you</Text>
+        {blur ? (
+          text.length >= 3 ? (
+            <Text>Thank you</Text>
+          ) : (
+            <Text>Please type more than 3 characters</Text>
+          )
         ) : (
-          <Text>Please type more than 3 characters</Text>
-        )
-      ) : (
-        text && <Text>{text.length}</Text>
-      )}
+          text && <Text>{text.length}</Text>
+        )}
 
-      <Button title="Confirm" onPress={handleConfirm} color="red"></Button>
-    </>
+        <Button title="Confirm" onPress={handleConfirm} color="red"></Button>
+        </View>
+      </Modal>
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fcf",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});
