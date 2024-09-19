@@ -22,7 +22,7 @@ export default function Input({ textInputFocus, inputHandler, modalVisible }) {
           placeholder="Type something"
           keyboardType="default"
           value={text}
-          style={{ borderBottomColor: "purple", borderBottomWidth: 2 }}
+          style={styles.textInputStyle}
           onChangeText={handleChangeText}
           onBlur={() => {
             setBlur(true);
@@ -42,7 +42,10 @@ export default function Input({ textInputFocus, inputHandler, modalVisible }) {
           text && <Text>{text.length}</Text>
         )}
 
-        <Button title="Confirm" onPress={handleConfirm}></Button>
+        <View style={styles.buttonStyle}>
+          <Button title="Confirm" onPress={handleConfirm}></Button>
+        </View>      
+        
         </View>
       </Modal>
   );
@@ -51,8 +54,20 @@ export default function Input({ textInputFocus, inputHandler, modalVisible }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fcf",
+    backgroundColor: "skyblue",
     alignItems: "center",
     justifyContent: "center",
   },
+  textInputStyle: {
+    borderColor: "purple",
+    borderWidth: 2,
+    padding: 5,
+    color: "blue",
+  },
+  buttonStyle: {
+    width: "30%",
+    marginVertical: 15,
+    backgroundColor: "yellow",
+  }
+  
 });

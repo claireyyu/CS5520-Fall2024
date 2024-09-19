@@ -25,7 +25,7 @@ export default function App() {
       <StatusBar style="auto" />
       <Header name={appName}></Header>
       <Input textInputFocus={true} inputHandler={handleInputData} modalVisible={isModalVisible} />
-      <Text>{input}</Text>
+      <Text style={styles.textStyle}>{input}</Text>
       <Button title="Add a goal" onPress={handleModalVisibility}></Button>
     </View>
   );
@@ -38,4 +38,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  textStyle: {
+    color: "purple",
+  }
 });
