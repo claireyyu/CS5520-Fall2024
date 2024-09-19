@@ -10,7 +10,7 @@ export default function Input({ textInputFocus, inputHandler, modalVisible }) {
     inputHandler(text);
   }
 
-  function handleChangeText (changedText) {
+  function handleChangeText(changedText) {
     setText(changedText);
   }
 
