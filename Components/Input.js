@@ -1,38 +1,40 @@
-import { StyleSheet, Text, View, TextInput } from 'react-native'
-import { useState } from 'react';
-import React from 'react'
+import { StyleSheet, Text, TextInput, View } from "react-native";
+import React, { useState } from "react";
 
-export default function Input(props) {
-    const [text, setText] = useState("");
-    const [counter, setCounter] = useState(true);
-    const [message, setMessage] = useState("");
-
-    const handleBlur = () => {
-        setCounter(false);
-        if (text.length < 3) {
-            setMessage("Please type more than 3 characters");
-        } else {
-            setMessage("Thank you");
-        }
-    }
-
+export default function Input({ textInputFocus }) {
+  const [text, setText] = useState("");
+  const [blur, setBlur] = useState(false);
   return (
-    <View>
-        < TextInput
-        autoFocus={props.autoFocus}
-        placeholder="Enter your name"
-        keyboardType='default'
-        style={{ borderBottomColor: "purple", borderWidth: 2 }}
-        value={text}  /* it's used to bind the input field to a state variable (text); for clearing the input field */
-        onChangeText={(text) => setText(text)}  /* onChangeText receives a function, the function receives the changed text */
-              /* Passing callback function: Don't call the function! Just pass the function definition to it */
-        onBlur={handleBlur}
-          />
-          {counter && text.length > 0 && (<Text>Character Count: {text.length}</Text>)}
-          <Text>{message}</Text>
+    <>
+      <TextInput
+        autoFocus={textInputFocus}
+        placeholder="Type something"
+        autoCorrect={true}
+        keyboardType="default"
+        value={text}
+        style={{ borderBottomColor: "purple", borderBottomWidth: 2 }}
+        onChangeText={(changedText) => {
+          setText(changedText);
+        }}
+        onBlur={() => {
+          setBlur(true);
+        }}
+        onFocus={() => {
+          setBlur(false);
+        }}
+      />
 
-    </View>
-  )
+      {blur ? (
+        text.length >= 3 ? (
+          <Text>Thank you</Text>
+        ) : (
+          <Text>Please type more than 3 characters</Text>
+        )
+      ) : (
+        text && <Text>{text.length}</Text>
+      )}
+    </>
+  );
 }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({});
