@@ -1,9 +1,14 @@
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import { Button, StyleSheet, Text, TextInput, View } from "react-native";
 import React, { useState } from "react";
 
 export default function Input({ textInputFocus }) {
   const [text, setText] = useState("");
   const [blur, setBlur] = useState(false);
+
+  const handleConfirm = () => {
+    console.log(text);
+  }
+
   return (
     <>
       <TextInput
@@ -33,6 +38,8 @@ export default function Input({ textInputFocus }) {
       ) : (
         text && <Text>{text.length}</Text>
       )}
+
+      <Button title="Confirm" onPress={handleConfirm}></Button>
     </>
   );
 }
