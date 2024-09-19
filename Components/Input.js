@@ -1,12 +1,17 @@
 import { Button, StyleSheet, Text, TextInput, View } from "react-native";
 import React, { useState } from "react";
 
-export default function Input({ textInputFocus }) {
+export default function Input({ textInputFocus, inputHandler }) {
   const [text, setText] = useState("");
   const [blur, setBlur] = useState(false);
 
-  const handleConfirm = () => {
-    console.log(text);
+  function handleConfirm() {
+    console.log("input.js: " + text);
+    inputHandler(text);
+  }
+
+  function handleChangeText (changedText) {
+    setText(changedText);
   }
 
   return (
@@ -14,13 +19,10 @@ export default function Input({ textInputFocus }) {
       <TextInput
         autoFocus={textInputFocus}
         placeholder="Type something"
-        autoCorrect={true}
         keyboardType="default"
         value={text}
         style={{ borderBottomColor: "purple", borderBottomWidth: 2 }}
-        onChangeText={(changedText) => {
-          setText(changedText);
-        }}
+        onChangeText={handleChangeText}
         onBlur={() => {
           setBlur(true);
         }}
@@ -39,7 +41,7 @@ export default function Input({ textInputFocus }) {
         text && <Text>{text.length}</Text>
       )}
 
-      <Button title="Confirm" onPress={handleConfirm}></Button>
+      <Button title="Confirm" onPress={handleConfirm} color="red"></Button>
     </>
   );
 }
