@@ -1,22 +1,72 @@
-import { StyleSheet, Text, View, TextInput } from 'react-native'
-import { useState } from 'react';
-import React from 'react'
+import { Button, StyleSheet, Text, TextInput, View, Modal } from "react-native";
+import React, { useState } from "react";
 
-export default function Input() {
+export default function Input({ textInputFocus, inputHandler, modalVisible }) {
   const [text, setText] = useState("");
-    
+  const [blur, setBlur] = useState(false);
+
+  function handleConfirm() {
+    console.log("input.js: " + text);
+    inputHandler(text);
+  }
+
+  function handleChangeText(changedText) {
+    setText(changedText);
+  }
+
   return (
-    <View>
-        < TextInput
-        placeholder="Enter your name"
-        keyboardType='default'
-        style={{ borderBottomColor: "purple", borderWidth: 2 }}
-        value={text}  /* it's used to bind the input field to a state variable (text); for clearing the input field */
-        onChangeText={(text) => setText(text)}  /* onChangeText receives a function, the function receives the changed text */
-        /* Passing callback function: Don't call the function! Just pass the function definition to it */
-      />
-    </View>
-  )
+    <Modal animationType="slide" visible={modalVisible}>
+      <View style={styles.container}>
+        <TextInput
+          autoFocus={textInputFocus}
+          placeholder="Type something"
+          keyboardType="default"
+          value={text}
+          style={styles.textInputStyle}
+          onChangeText={handleChangeText}
+          onBlur={() => {
+            setBlur(true);
+          }}
+          onFocus={() => {
+            setBlur(false);
+          }}
+        />
+
+        {blur ? (
+          text.length >= 3 ? (
+            <Text>Thank you</Text>
+          ) : (
+            <Text>Please type more than 3 characters</Text>
+          )
+        ) : (
+          text && <Text>{text.length}</Text>
+        )}
+
+        <View style={styles.buttonStyle}>
+          <Button title="Confirm" onPress={handleConfirm}></Button>
+        </View>      
+        
+        </View>
+      </Modal>
+  );
 }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "pink",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  textInputStyle: {
+    borderColor: "purple",
+    borderWidth: 2,
+    padding: 5,
+    color: "blue",
+  },
+  buttonStyle: {
+    width: "30%",
+    marginVertical: 15,
+  }
+  
+});
