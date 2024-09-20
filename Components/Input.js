@@ -4,6 +4,7 @@ import React, { useState } from "react";
 export default function Input({ textInputFocus, inputHandler, modalVisible, alertHandler }) {
   const [text, setText] = useState("");
   const [blur, setBlur] = useState(false);
+  const [disabled, setDisabled] = useState(true);
 
   function handleConfirm() {
     console.log("input.js: " + text);
@@ -13,6 +14,11 @@ export default function Input({ textInputFocus, inputHandler, modalVisible, aler
 
   function handleChangeText(changedText) {
     setText(changedText);
+    if (changedText.length >= 3) {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
+    }
   }
 
   function handleCancel() {
@@ -53,7 +59,7 @@ export default function Input({ textInputFocus, inputHandler, modalVisible, aler
             <Button title="CANCEL" onPress={handleCancel} color="white"></Button>
           </View>   
           <View style={styles.buttonStyle}>
-            <Button title="CONFIRM" onPress={handleConfirm} color="white"></Button>
+            <Button title="CONFIRM" onPress={handleConfirm} color="white" disabled={disabled}></Button>
           </View>     
         </ View>  
 
