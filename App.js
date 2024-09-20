@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
   },
   bottomView: {
     flex: 4,
-    backgroundColor: "pink",
+    backgroundColor: "lavender",
     alignItems: "center",
   },
 });

@@ -1,4 +1,4 @@
-import { Button, StyleSheet, Text, TextInput, View, Modal } from "react-native";
+import { Button, StyleSheet, Text, TextInput, View, Modal, Image } from "react-native";
 import React, { useState } from "react";
 
 export default function Input({ textInputFocus, inputHandler, modalVisible, alertHandler }) {
@@ -29,6 +29,17 @@ export default function Input({ textInputFocus, inputHandler, modalVisible, aler
   return (
     <Modal animationType="slide" visible={modalVisible}>
       <View style={styles.container}>
+        <Image
+          style={styles.imageStyle}
+          source={{ uri: "https://cdn-icons-png.flaticon.com/512/2617/2617812.png" }}
+          accessibilityLabel="Network image"
+        />
+
+        <Image
+          style={styles.imageStyle}
+          source={require('../assets/image.png')} 
+          accessibilityLabel="Local image"
+        />
         <TextInput
           autoFocus={textInputFocus}
           placeholder="Type something"
@@ -56,10 +67,10 @@ export default function Input({ textInputFocus, inputHandler, modalVisible, aler
 
         <View style={styles.buttonContainer}>
           <View style={styles.buttonStyle}>
-            <Button title="CANCEL" onPress={handleCancel} color="white"></Button>
+            <Button title="CANCEL" onPress={handleCancel}></Button>
           </View>   
           <View style={styles.buttonStyle}>
-            <Button title="CONFIRM" onPress={handleConfirm} color="white" disabled={disabled}></Button>
+            <Button title="CONFIRM" onPress={handleConfirm} disabled={disabled}></Button>
           </View>     
         </ View>  
 
@@ -71,7 +82,7 @@ export default function Input({ textInputFocus, inputHandler, modalVisible, aler
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "pink",
+    backgroundColor: "lavender",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -89,11 +100,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#2196F3",
   },
   buttonContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
   },
-  
+  imageStyle: {
+    width: 100,
+    height: 100,
+    marginVertical: 10,
+  },
 });
