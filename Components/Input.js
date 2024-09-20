@@ -8,10 +8,16 @@ export default function Input({ textInputFocus, inputHandler, modalVisible, aler
   function handleConfirm() {
     console.log("input.js: " + text);
     inputHandler(text);
+    setText("");
   }
 
   function handleChangeText(changedText) {
     setText(changedText);
+  }
+
+  function handleCancel() {
+    alertHandler();
+    setText("");
   }
 
   return (
@@ -42,12 +48,15 @@ export default function Input({ textInputFocus, inputHandler, modalVisible, aler
           text && <Text>{text.length}</Text>
         )}
 
-        <View style={styles.buttonStyle}>
-          <Button title="Confirm" onPress={handleConfirm}></Button>
-          <Button title="Cancel" onPress={alertHandler}></Button>
-        </View>     
+        <View style={styles.buttonContainer}>
+          <View style={styles.buttonStyle}>
+            <Button title="CANCEL" onPress={handleCancel} color="white"></Button>
+          </View>   
+          <View style={styles.buttonStyle}>
+            <Button title="CONFIRM" onPress={handleConfirm} color="white"></Button>
+          </View>     
+        </ View>  
 
-        
         </View>
       </Modal>
   );
@@ -64,11 +73,21 @@ const styles = StyleSheet.create({
     borderColor: "purple",
     borderWidth: 2,
     padding: 5,
-    color: "blue",
+    color: "black",
   },
   buttonStyle: {
     width: "30%",
     marginVertical: 15,
-  }
+    marginHorizontal: 15,
+    padding: 2,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#2196F3",
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
   
 });
