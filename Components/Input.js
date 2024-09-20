@@ -1,7 +1,7 @@
 import { Button, StyleSheet, Text, TextInput, View, Modal } from "react-native";
 import React, { useState } from "react";
 
-export default function Input({ textInputFocus, inputHandler, modalVisible }) {
+export default function Input({ textInputFocus, inputHandler, modalVisible, alertHandler }) {
   const [text, setText] = useState("");
   const [blur, setBlur] = useState(false);
 
@@ -44,7 +44,9 @@ export default function Input({ textInputFocus, inputHandler, modalVisible }) {
 
         <View style={styles.buttonStyle}>
           <Button title="Confirm" onPress={handleConfirm}></Button>
-        </View>      
+          <Button title="Cancel" onPress={alertHandler}></Button>
+        </View>     
+
         
         </View>
       </Modal>

@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, TextInput, View, Button, SafeAreaView } from "react-native";
+import { StyleSheet, Text, TextInput, View, Button, SafeAreaView, Alert } from "react-native";
 import Header from "./Components/Header";
 import { useState } from "react";
 import Input from "./Components/Input";
@@ -20,12 +20,23 @@ export default function App() {
     setIsModalVisible(true);
   }
 
+  function handleAlert() {
+    Alert.alert('Do you want to hide the modal', 'Press on OK to confirm', [
+      {
+        text: 'Cancel',
+        onPress: () => console.log('Cancel Pressed'),
+        style: 'cancel',
+      },
+      {text: 'OK', onPress: () => setIsModalVisible(false)},
+    ]);
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="auto" />
       <View style={styles.topView}>
         <Header name={appName}></Header>
-        <Input textInputFocus={true} inputHandler={handleInputData} modalVisible={isModalVisible} />
+        <Input textInputFocus={true} inputHandler={handleInputData} modalVisible={isModalVisible} alertHandler={handleAlert} />
         <Button title="Add a goal" onPress={handleModalVisibility}></Button>
       </View>
       <View style={styles.bottomView}>
