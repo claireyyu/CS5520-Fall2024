@@ -59,11 +59,12 @@ export default function App() {
         <Button title="Add a goal" onPress={handleModalVisibility}></Button>
       </View>
       <View style={styles.bottomView}>
-        <FlatList data={goals} contentContainerStyle={styles.contentContainer} renderItem={({item}) => {
+        <FlatList data={goals} contentContainerStyle={styles.contentContainer} renderItem={({ item }) => {
           console.log(item);
           return (<GoalItem item={item} handleDelete={goalDeleteHandler} />)
         }}
-        ListEmptyComponent={() => <Text style={styles.emptyText}>No Goals to Show</Text>}>
+          ListEmptyComponent={() => <Text style={styles.emptyText}>No Goals to Show</Text>}
+          ListHeaderComponent={() => { goals && <Text style={styles.headerText}>My Goal List</Text> }}>
         </FlatList>
         {/* <ScrollView contentContainerStyle={styles.contentContainer}> */}
           {/* {goals.map((goal) => {
@@ -113,5 +114,15 @@ const styles = StyleSheet.create({
     color: "gray",
     textAlign: "center",
     marginTop: 20,
+    padding: 8,
+  },
+  headerText: {
+    fontSize: 20,
+    color: "black",
+    textAlign: "center",
+    marginTop: 20,
+    borderWidth: 1,
+    borderRadius: 5,
+    padding: 8,
   }
 });
