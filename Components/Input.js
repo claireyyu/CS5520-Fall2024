@@ -91,6 +91,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#aaa",
     borderRadius: 5,
     alignItems: "center",
+    justifyContent: "center",
+    marginTop: 100,
   },
   textInputStyle: {
     borderColor: "purple",

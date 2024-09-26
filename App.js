@@ -40,7 +40,9 @@ export default function App() {
         <Button title="Add a goal" onPress={handleModalVisibility}></Button>
       </View>
       <View style={styles.bottomView}>
-        <Text style={styles.textStyle}>{input}</Text>
+        <View style={styles.textContainer}>
+          <Text style={styles.textStyle}>{input}</Text>
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -55,7 +57,9 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     color: "blue",
-    marginVertical: 5,
+    marginTop: 5,
+    fontSize: 25,
+    padding: 5,
   },
   topView: {
     flex: 1,
@@ -67,4 +71,10 @@ const styles = StyleSheet.create({
     backgroundColor: "lavender",
     alignItems: "center",
   },
+  textContainer: {
+    marginTop: 5,
+    borderRadius: 5,
+    backgroundColor: "#aaa",
+
+  }
 });
