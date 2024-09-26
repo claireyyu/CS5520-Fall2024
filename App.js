@@ -49,6 +49,16 @@ export default function App() {
     });
   }
 
+  function handleDeleteAll() {
+    Alert.alert('Do you want to delete all goals', 'Press on OK to confirm', [
+      {
+        text: 'Cancel',
+        onPress: () => console.log('Cancel Pressed'),
+        style: 'cancel',
+      },
+      { text: 'OK', onPress: () => setGoals([]) },
+    ]);
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -64,7 +74,8 @@ export default function App() {
           return (<GoalItem item={item} handleDelete={goalDeleteHandler} />)
         }}
           ListEmptyComponent={() => <Text style={styles.emptyText}>No Goals to Show</Text>}
-          ListHeaderComponent={() => { goals && <Text style={styles.headerText}>My Goal List</Text> }}>
+          ListHeaderComponent={() => goals.length !== 0 && <Text style={styles.headerText}>My Goal List</Text>}
+          ListFooterComponent={() => goals.length !== 0 && <Button title="Delete All" onPress={handleDeleteAll}></Button>}>
         </FlatList>
         {/* <ScrollView contentContainerStyle={styles.contentContainer}> */}
           {/* {goals.map((goal) => {
