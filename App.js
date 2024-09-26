@@ -7,10 +7,26 @@ import Input from "./Components/Input";
 export default function App() {
   const appName = "My app!";
   const [input, setInput] = useState("");
+  const [goals, setGoals] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
+
 
   function handleInputData(inputData) {
     console.log("app.js: " + inputData);
+    // declare a new js object
+    const newGoal = {
+      id: Math.random().toString(),
+      value: inputData,
+    };
+    // update state based on a previous state
+    // const newArray = [...goals, newGoal];
+    // console.log(newArray);
+    // setGoals(newArray);
+    // use updater function
+    // async?
+    setGoals((prevGoals) => {
+      return [...prevGoals, newGoal];
+    });
     setInput(inputData);
     setIsModalVisible(false);
   }
@@ -40,9 +56,12 @@ export default function App() {
         <Button title="Add a goal" onPress={handleModalVisibility}></Button>
       </View>
       <View style={styles.bottomView}>
-        <View style={styles.textContainer}>
+        {goals.map((goal) => {
+          return (<View key={goal.id} style={styles.textContainer}><Text>{goal.value}</Text></View>)
+        })}
+        {/* <View style={styles.textContainer}>
           <Text style={styles.textStyle}>{input}</Text>
-        </View>
+        </View> */}
       </View>
     </SafeAreaView>
   );
@@ -56,10 +75,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   textStyle: {
-    color: "blue",
-    marginTop: 5,
-    fontSize: 25,
-    padding: 5,
+    color: "white",
+    fontSize: 50,
   },
   topView: {
     flex: 1,
@@ -74,7 +91,7 @@ const styles = StyleSheet.create({
   textContainer: {
     marginTop: 5,
     borderRadius: 5,
-    backgroundColor: "#aaa",
-
+    backgroundColor: "white",
+    padding: 5,
   }
 });
