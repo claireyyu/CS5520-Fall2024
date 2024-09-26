@@ -3,6 +3,7 @@ import { StyleSheet, Text, TextInput, View, Button, SafeAreaView, Alert, ScrollV
 import Header from "./Components/Header";
 import { useState } from "react";
 import Input from "./Components/Input";
+import GoalItem from "./Components/GoalItem";
 
 export default function App() {
   const appName = "My app!";
@@ -18,12 +19,7 @@ export default function App() {
       id: Math.random().toString(),
       text: inputData,
     };
-    // update state based on a previous state
-    // const newArray = [...goals, newGoal];
-    // console.log(newArray);
-    // setGoals(newArray);
-    // use updater function
-    // async?
+    // async
     setGoals((prevGoals) => {
       return [...prevGoals, newGoal];
     });
@@ -58,9 +54,7 @@ export default function App() {
       <View style={styles.bottomView}>
         <FlatList data={goals} contentContainerStyle={styles.contentContainer} renderItem={({item}) => {
           console.log(item);
-          return (<View key={item.id} style={styles.textContainer}>
-            <Text style={styles.textStyle}>{item.text}</Text>
-          </View>)
+          return (<GoalItem item={item} />)
         }}>
           {/* <ScrollView contentContainerStyle={styles.contentContainer}> */}
           {/* {goals.map((goal) => {
@@ -70,11 +64,6 @@ export default function App() {
           })} */}
           {/* </ScrollView> */} 
         </FlatList>
-      
-        
-        {/* <View style={styles.textContainer}>
-          <Text style={styles.textStyle}>{input}</Text>
-        </View> */}
       </View>
     </SafeAreaView>
   );
