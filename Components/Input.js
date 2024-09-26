@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 100,
+    marginTop: 50,
   },
   textInputStyle: {
     borderColor: "purple",

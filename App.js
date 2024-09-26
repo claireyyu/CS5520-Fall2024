@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, TextInput, View, Button, SafeAreaView, Alert, ScrollView } from "react-native";
+import { StyleSheet, Text, TextInput, View, Button, SafeAreaView, Alert, ScrollView, FlatList } from "react-native";
 import Header from "./Components/Header";
 import { useState } from "react";
 import Input from "./Components/Input";
@@ -56,11 +56,22 @@ export default function App() {
         <Button title="Add a goal" onPress={handleModalVisibility}></Button>
       </View>
       <View style={styles.bottomView}>
-        <ScrollView contentContainerStyle={styles.contentContainer}>
-          {goals.map((goal) => {
-            return (<View key={goal.id} style={styles.textContainer}><Text style={styles.textStyle}>{goal.value}</Text></View>)
-          })}
-        </ScrollView>
+        <FlatList data={goals} contentContainerStyle={styles.contentContainer} renderItem={({item}) => {
+          console.log(item);
+          return (<View key={item.id} style={styles.textContainer}>
+            <Text style={styles.textStyle}>{item.text}</Text>
+          </View>)
+        }}>
+          {/* <ScrollView contentContainerStyle={styles.contentContainer}> */}
+          {/* {goals.map((goal) => {
+            return (<View key={goal.id} style={styles.textContainer}>
+              <Text style={styles.textStyle}>{goal.text}</Text>
+            </View>)
+          })} */}
+          {/* </ScrollView> */} 
+        </FlatList>
+      
+        
         {/* <View style={styles.textContainer}>
           <Text style={styles.textStyle}>{input}</Text>
         </View> */}
@@ -83,6 +94,7 @@ const styles = StyleSheet.create({
   textStyle: {
     color: "black",
     fontSize: 50,
+    textAlign: "center",
   },
   topView: {
     flex: 1,
