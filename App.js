@@ -43,6 +43,13 @@ export default function App() {
     ]);
   }
 
+  function goalDeleteHandler(deletedID) {
+    setGoals((prevGoals) => {
+      return prevGoals.filter((goal) => goal.id !== deletedID);
+    });
+  }
+
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="auto" />
@@ -54,16 +61,16 @@ export default function App() {
       <View style={styles.bottomView}>
         <FlatList data={goals} contentContainerStyle={styles.contentContainer} renderItem={({item}) => {
           console.log(item);
-          return (<GoalItem item={item} />)
+          return (<GoalItem item={item} handleDelete={goalDeleteHandler} />)
         }}>
-          {/* <ScrollView contentContainerStyle={styles.contentContainer}> */}
+        </FlatList>
+        {/* <ScrollView contentContainerStyle={styles.contentContainer}> */}
           {/* {goals.map((goal) => {
             return (<View key={goal.id} style={styles.textContainer}>
               <Text style={styles.textStyle}>{goal.text}</Text>
             </View>)
           })} */}
-          {/* </ScrollView> */} 
-        </FlatList>
+        {/* </ScrollView> */} 
       </View>
     </SafeAreaView>
   );
