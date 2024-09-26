@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, TextInput, View, Button, SafeAreaView, Alert } from "react-native";
+import { StyleSheet, Text, TextInput, View, Button, SafeAreaView, Alert, ScrollView } from "react-native";
 import Header from "./Components/Header";
 import { useState } from "react";
 import Input from "./Components/Input";
@@ -16,7 +16,7 @@ export default function App() {
     // declare a new js object
     const newGoal = {
       id: Math.random().toString(),
-      value: inputData,
+      text: inputData,
     };
     // update state based on a previous state
     // const newArray = [...goals, newGoal];
@@ -56,9 +56,11 @@ export default function App() {
         <Button title="Add a goal" onPress={handleModalVisibility}></Button>
       </View>
       <View style={styles.bottomView}>
-        {goals.map((goal) => {
-          return (<View key={goal.id} style={styles.textContainer}><Text>{goal.value}</Text></View>)
-        })}
+        <ScrollView contentContainerStyle={styles.contentContainer}>
+          {goals.map((goal) => {
+            return (<View key={goal.id} style={styles.textContainer}><Text style={styles.textStyle}>{goal.value}</Text></View>)
+          })}
+        </ScrollView>
         {/* <View style={styles.textContainer}>
           <Text style={styles.textStyle}>{input}</Text>
         </View> */}
@@ -74,8 +76,12 @@ const styles = StyleSheet.create({
     // alignItems: "center",
     justifyContent: "center",
   },
+  contentContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
   textStyle: {
-    color: "white",
+    color: "black",
     fontSize: 50,
   },
   topView: {
@@ -86,12 +92,11 @@ const styles = StyleSheet.create({
   bottomView: {
     flex: 4,
     backgroundColor: "lavender",
-    alignItems: "center",
   },
   textContainer: {
     marginTop: 5,
     borderRadius: 5,
     backgroundColor: "white",
-    padding: 5,
+    padding: 50,
   }
 });
