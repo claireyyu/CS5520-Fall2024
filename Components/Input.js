@@ -27,8 +27,9 @@ export default function Input({ textInputFocus, inputHandler, modalVisible, aler
   }
 
   return (
-    <Modal animationType="slide" visible={modalVisible}>
+    <Modal animationType="slide" visible={modalVisible} transparent={true}>
       <View style={styles.container}>
+        <View style={styles.modalContainer}>
         <Image
           style={styles.imageStyle}
           source={{ uri: "https://cdn-icons-png.flaticon.com/512/2617/2617812.png" }}
@@ -73,7 +74,7 @@ export default function Input({ textInputFocus, inputHandler, modalVisible, aler
             <Button title="CONFIRM" onPress={handleConfirm} disabled={disabled}></Button>
           </View>     
         </ View>  
-
+        </View>
         </View>
       </Modal>
   );
@@ -82,9 +83,16 @@ export default function Input({ textInputFocus, inputHandler, modalVisible, aler
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "lavender",
+    // backgroundColor: "lavender",
     alignItems: "center",
     justifyContent: "center",
+  },
+  modalContainer: {
+    backgroundColor: "lightgray",
+    borderRadius: 5,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 50,
   },
   textInputStyle: {
     borderColor: "purple",
@@ -108,6 +116,6 @@ const styles = StyleSheet.create({
   imageStyle: {
     width: 100,
     height: 100,
-    marginBottom: 10,
+    marginBottom: 15,
   },
 });

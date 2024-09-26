@@ -1,16 +1,28 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, TextInput, View, Button, SafeAreaView, Alert } from "react-native";
+import { StyleSheet, Text, TextInput, View, Button, SafeAreaView, Alert, ScrollView, FlatList } from "react-native";
 import Header from "./Components/Header";
 import { useState } from "react";
 import Input from "./Components/Input";
+import GoalItem from "./Components/GoalItem";
 
 export default function App() {
   const appName = "My app!";
   const [input, setInput] = useState("");
+  const [goals, setGoals] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
+
 
   function handleInputData(inputData) {
     console.log("app.js: " + inputData);
+    // declare a new js object
+    const newGoal = {
+      id: Math.random().toString(),
+      text: inputData,
+    };
+    // async
+    setGoals((prevGoals) => {
+      return [...prevGoals, newGoal];
+    });
     setInput(inputData);
     setIsModalVisible(false);
   }
@@ -31,6 +43,13 @@ export default function App() {
     ]);
   }
 
+  function goalDeleteHandler(deletedID) {
+    setGoals((prevGoals) => {
+      return prevGoals.filter((goal) => goal.id !== deletedID);
+    });
+  }
+
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="auto" />
@@ -40,7 +59,18 @@ export default function App() {
         <Button title="Add a goal" onPress={handleModalVisibility}></Button>
       </View>
       <View style={styles.bottomView}>
-        <Text style={styles.textStyle}>{input}</Text>
+        <FlatList data={goals} contentContainerStyle={styles.contentContainer} renderItem={({item}) => {
+          console.log(item);
+          return (<GoalItem item={item} handleDelete={goalDeleteHandler} />)
+        }}>
+        </FlatList>
+        {/* <ScrollView contentContainerStyle={styles.contentContainer}> */}
+          {/* {goals.map((goal) => {
+            return (<View key={goal.id} style={styles.textContainer}>
+              <Text style={styles.textStyle}>{goal.text}</Text>
+            </View>)
+          })} */}
+        {/* </ScrollView> */} 
       </View>
     </SafeAreaView>
   );
@@ -53,9 +83,14 @@ const styles = StyleSheet.create({
     // alignItems: "center",
     justifyContent: "center",
   },
+  contentContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
   textStyle: {
-    color: "blue",
-    marginVertical: 5,
+    color: "black",
+    fontSize: 50,
+    textAlign: "center",
   },
   topView: {
     flex: 1,
@@ -65,6 +100,11 @@ const styles = StyleSheet.create({
   bottomView: {
     flex: 4,
     backgroundColor: "lavender",
-    alignItems: "center",
   },
+  textContainer: {
+    marginTop: 5,
+    borderRadius: 5,
+    backgroundColor: "white",
+    padding: 50,
+  }
 });
