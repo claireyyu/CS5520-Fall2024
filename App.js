@@ -62,7 +62,8 @@ export default function App() {
         <FlatList data={goals} contentContainerStyle={styles.contentContainer} renderItem={({item}) => {
           console.log(item);
           return (<GoalItem item={item} handleDelete={goalDeleteHandler} />)
-        }}>
+        }}
+        ListEmptyComponent={() => <Text style={styles.emptyText}>No Goals to Show</Text>}>
         </FlatList>
         {/* <ScrollView contentContainerStyle={styles.contentContainer}> */}
           {/* {goals.map((goal) => {
@@ -106,5 +107,11 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     backgroundColor: "white",
     padding: 50,
+  },
+  emptyText: {
+    fontSize: 20,
+    color: "gray",
+    textAlign: "center",
+    marginTop: 20,
   }
 });
