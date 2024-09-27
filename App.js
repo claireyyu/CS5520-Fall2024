@@ -69,14 +69,24 @@ export default function App() {
         <Button title="Add a goal" onPress={handleModalVisibility}></Button>
       </View>
       <View style={styles.bottomView}>
-        <FlatList data={goals} contentContainerStyle={styles.contentContainer} renderItem={({ item }) => {
+      <FlatList
+        data={goals}
+        contentContainerStyle={styles.contentContainer}
+        renderItem={({ item }) => {
           console.log(item);
-          return (<GoalItem item={item} handleDelete={goalDeleteHandler} />)
+          return <GoalItem item={item} handleDelete={goalDeleteHandler} />;
         }}
-          ListEmptyComponent={() => <Text style={styles.emptyText}>No Goals to Show</Text>}
-          ListHeaderComponent={() => goals.length !== 0 && <Text style={styles.headerText}>My Goal List</Text>}
-          ListFooterComponent={() => goals.length !== 0 && <Button title="Delete All" onPress={handleDeleteAll}></Button>}>
-        </FlatList>
+        ListEmptyComponent={() => (
+          <Text style={styles.emptyText}>No Goals to Show</Text>
+        )}
+        ListHeaderComponent={() =>
+          goals.length !== 0 && <Text style={styles.headerText}>My Goal List</Text>
+        }
+        ListFooterComponent={() =>
+          goals.length !== 0 && <Button title="Delete All" onPress={handleDeleteAll} />
+        }
+        ItemSeparatorComponent={() => <View style={styles.separator} />}
+      />
         {/* <ScrollView contentContainerStyle={styles.contentContainer}> */}
           {/* {goals.map((goal) => {
             return (<View key={goal.id} style={styles.textContainer}>
@@ -129,11 +139,18 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontSize: 20,
-    color: "black",
+    color: "purple",
     textAlign: "center",
     marginTop: 20,
-    borderWidth: 1,
+    borderColor: "purple",
+    borderWidth: 2,
     borderRadius: 5,
     padding: 8,
-  }
+    marginBottom: 10,
+  },
+  separator: {
+    height: 1,
+    width: '100%',
+    backgroundColor: 'black',
+  },
 });
