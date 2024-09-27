@@ -85,7 +85,7 @@ export default function App() {
         ListFooterComponent={() =>
           goals.length !== 0 && <Button title="Delete All" onPress={handleDeleteAll} />
         }
-        ItemSeparatorComponent={() => <View style={styles.separator} />}
+        ItemSeparatorComponent={() => <View style={styles.separator}></View>}
       />
         {/* <ScrollView contentContainerStyle={styles.contentContainer}> */}
           {/* {goals.map((goal) => {
@@ -149,8 +149,10 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   separator: {
-    height: 1,
-    width: '100%',
-    backgroundColor: 'black',
+    height: 4,
+    backgroundColor: 'grey',
+    borderWidth: 1,
+    borderColor: 'grey',
+    marginVertical: 5,
   },
 });
