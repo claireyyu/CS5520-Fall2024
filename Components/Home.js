@@ -5,7 +5,7 @@ import Header from "./Header";
 import Input from "./Input";
 import GoalItem from "./GoalItem";
 
-export default function Home() {
+export default function Home({ navigation }) {
   const appName = "My app!";
   const [input, setInput] = useState("");
   const [goals, setGoals] = useState([]);
@@ -60,6 +60,10 @@ export default function Home() {
     ]);
   }
 
+  const pressHandler = () => {
+    navigation.navigate('GoalDetails')
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="auto" />
@@ -74,7 +78,7 @@ export default function Home() {
         contentContainerStyle={styles.contentContainer}
         renderItem={({ item }) => {
           console.log(item);
-          return <GoalItem item={item} handleDelete={goalDeleteHandler} />;
+          return <GoalItem item={item} handleDelete={goalDeleteHandler} handlePress={pressHandler} />;
         }}
         ListEmptyComponent={() => (
           <Text style={styles.emptyText}>No Goals to Show</Text>
@@ -87,13 +91,6 @@ export default function Home() {
         }
         ItemSeparatorComponent={() => <View style={styles.separator}></View>}
       />
-        {/* <ScrollView contentContainerStyle={styles.contentContainer}> */}
-          {/* {goals.map((goal) => {
-            return (<View key={goal.id} style={styles.textContainer}>
-              <Text style={styles.textStyle}>{goal.text}</Text>
-            </View>)
-          })} */}
-        {/* </ScrollView> */} 
       </View>
     </SafeAreaView>
   );
