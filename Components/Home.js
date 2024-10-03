@@ -61,7 +61,7 @@ export default function Home({ navigation }) {
   }
 
   const pressHandler = (pressedItem) => {
-    navigation.navigate('Details', {pressedItem})
+    navigation.navigate('Details', {currentItem: pressedItem})
   }
 
   return (
