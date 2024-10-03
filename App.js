@@ -9,7 +9,11 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="Home" component={Home} options={{ 
+          title: 'Goal Tracker',
+          headerStyle: { backgroundColor: 'lightseagreen' },
+          headerTitleStyle: {color: 'white'}
+        }}/>
         <Stack.Screen name="GoalDetails" component={GoalDetails} />
       </Stack.Navigator>
     </NavigationContainer>
