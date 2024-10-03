@@ -1,35 +1,42 @@
 import { View, Text, StyleSheet, Button } from 'react-native'
 import React from 'react'
 
-const GoalItem = ({item, handleDelete}) => {
+const GoalItem = ({item, handleDelete, handlePress}) => {
   return (
     <View key={item.id} style={styles.textContainer}>
       <Text style={styles.textStyle}>{item.text}</Text>
+      <View style={styles.btnContainer}>
       <Button title="x" onPress={() => {
         handleDelete(item.id)
-      }}></Button>
+        }}></Button>
+      <Button title="i" onPress={() => handlePress(item)} color="grey" />
+      </View>
     </View>
     )
 }
 
 const styles = StyleSheet.create({
-  container:
-  {
+  container:{
     flex: 1,
   },
   textContainer: {
     marginTop: 5,
     borderRadius: 5,
     backgroundColor: "white",
-    padding: 20,
+    padding: 10,
     flexDirection: "row",
-    justifyItems: "center", 
+    justifyItems: "space-between", 
     alignItems: "center",
   },
   textStyle: {
     color: "black",
     fontSize: 20,
   },
+  btnContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginLeft: 10,
+  }
 });
 
 

@@ -1,110 +1,29 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, TextInput, View, Button, SafeAreaView, Alert, ScrollView, FlatList } from "react-native";
-import Header from "./Components/Header";
-import { useState } from "react";
-import Input from "./Components/Input";
-import GoalItem from "./Components/GoalItem";
-
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import Home from './components/Home'
+import GoalDetails from './components/GoalDetails'
+import { Button } from 'react-native'
 export default function App() {
-  const appName = "My app!";
-  const [input, setInput] = useState("");
-  const [goals, setGoals] = useState([]);
-  const [isModalVisible, setIsModalVisible] = useState(false);
-
-
-  function handleInputData(inputData) {
-    console.log("app.js: " + inputData);
-    // declare a new js object
-    const newGoal = {
-      id: Math.random().toString(),
-      text: inputData,
-    };
-    // async
-    setGoals((prevGoals) => {
-      return [...prevGoals, newGoal];
-    });
-    setInput(inputData);
-    setIsModalVisible(false);
-  }
-
-  function handleModalVisibility() {
-    console.log("Modal visibility: " + isModalVisible);
-    setIsModalVisible(true);
-  }
-
-  function handleAlert() {
-    Alert.alert('Do you want to hide the modal', 'Press on OK to confirm', [
-      {
-        text: 'Cancel',
-        onPress: () => console.log('Cancel Pressed'),
-        style: 'cancel',
-      },
-      {text: 'OK', onPress: () => setIsModalVisible(false)},
-    ]);
-  }
-
-  function goalDeleteHandler(deletedID) {
-    setGoals((prevGoals) => {
-      return prevGoals.filter((goal) => goal.id !== deletedID);
-    });
-  }
-
+  const Stack = createNativeStackNavigator();
 
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar style="auto" />
-      <View style={styles.topView}>
-        <Header name={appName}></Header>
-        <Input textInputFocus={true} inputHandler={handleInputData} modalVisible={isModalVisible} alertHandler={handleAlert} />
-        <Button title="Add a goal" onPress={handleModalVisibility}></Button>
-      </View>
-      <View style={styles.bottomView}>
-        <FlatList data={goals} contentContainerStyle={styles.contentContainer} renderItem={({item}) => {
-          console.log(item);
-          return (<GoalItem item={item} handleDelete={goalDeleteHandler} />)
-        }}>
-        </FlatList>
-        {/* <ScrollView contentContainerStyle={styles.contentContainer}> */}
-          {/* {goals.map((goal) => {
-            return (<View key={goal.id} style={styles.textContainer}>
-              <Text style={styles.textStyle}>{goal.text}</Text>
-            </View>)
-          })} */}
-        {/* </ScrollView> */} 
-      </View>
-    </SafeAreaView>
-  );
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Home" component={Home}
+          options={{
+            title: "All My Goals",
+            headerStyle: { backgroundColor: 'lightseagreen' },
+            headerTintColor: 'white'
+          }}/>
+        <Stack.Screen name="Details" component={GoalDetails} options={({route, navigation}) => ({
+          title: route.params ? `${route.params.currentItem.text}` : 'More Details',
+          headerStyle: { backgroundColor: 'lightseagreen' },
+          headerTintColor: 'white',
+          headerRight: () => (
+            <Button title="Warning" onPress={() => (console.log('Warning'))} color="white"/>
+          )
+        })} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    // alignItems: "center",
-    justifyContent: "center",
-  },
-  contentContainer: {
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  textStyle: {
-    color: "black",
-    fontSize: 50,
-    textAlign: "center",
-  },
-  topView: {
-    flex: 1,
-    justifyContent: "space-evenly",
-    alignItems: "center",
-  },
-  bottomView: {
-    flex: 4,
-    backgroundColor: "lavender",
-  },
-  textContainer: {
-    marginTop: 5,
-    borderRadius: 5,
-    backgroundColor: "white",
-    padding: 50,
-  }
-});
