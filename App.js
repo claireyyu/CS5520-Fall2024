@@ -2,7 +2,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Home from './components/Home'
 import GoalDetails from './components/GoalDetails'
-
+import { Button } from 'react-native'
 export default function App() {
   const Stack = createNativeStackNavigator();
 
@@ -18,7 +18,10 @@ export default function App() {
         <Stack.Screen name="Details" component={GoalDetails} options={({route, navigation}) => ({
           title: route.params ? `${route.params.currentItem.text}` : 'More Details',
           headerStyle: { backgroundColor: 'lightseagreen' },
-          headerTintColor: 'white'
+          headerTintColor: 'white',
+          headerRight: () => (
+            <Button title="Warning" onPress={() => (console.log('Warning'))} color="white"/>
+          )
         })} />
       </Stack.Navigator>
     </NavigationContainer>
