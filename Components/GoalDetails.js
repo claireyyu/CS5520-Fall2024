@@ -3,10 +3,10 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { View, Text } from 'react-native'
 
 
-export default function GoalDetails({ navigation }) {
+export default function GoalDetails({ navigation, route }) {
   return (
     <View>
-      <Text>GoalDetails</Text>
+      <Text>{route.params.pressedItem.text}</Text>
     </View>
   )
 }

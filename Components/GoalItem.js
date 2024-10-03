@@ -9,7 +9,7 @@ const GoalItem = ({item, handleDelete, handlePress}) => {
       <Button title="x" onPress={() => {
         handleDelete(item.id)
         }}></Button>
-        <Button title="i" onPress={handlePress} color="grey" />
+        <Button title="i" onPress={() => handlePress(item)} color="grey" />
       </View>
     </View>
     )

@@ -60,8 +60,8 @@ export default function Home({ navigation }) {
     ]);
   }
 
-  const pressHandler = () => {
-    navigation.navigate('GoalDetails')
+  const pressHandler = (pressedItem) => {
+    navigation.navigate('Details', {pressedItem})
   }
 
   return (
