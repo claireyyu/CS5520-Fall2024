@@ -60,10 +60,6 @@ export default function Home({ navigation }) {
     ]);
   }
 
-  const pressHandler = (pressedItem) => {
-    navigation.navigate('Details', {currentItem: pressedItem})
-  }
-
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="auto" />
@@ -78,7 +74,7 @@ export default function Home({ navigation }) {
         contentContainerStyle={styles.contentContainer}
         renderItem={({ item }) => {
           console.log(item);
-          return <GoalItem item={item} handleDelete={goalDeleteHandler} handlePress={pressHandler} />;
+          return <GoalItem item={item} handleDelete={goalDeleteHandler}/>;
         }}
         ListEmptyComponent={() => (
           <Text style={styles.emptyText}>No Goals to Show</Text>
