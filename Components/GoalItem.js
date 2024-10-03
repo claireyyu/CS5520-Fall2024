@@ -5,11 +5,11 @@ const GoalItem = ({item, handleDelete, handlePress}) => {
   return (
     <View key={item.id} style={styles.textContainer}>
       <Text style={styles.textStyle}>{item.text}</Text>
-      <View style={styles.btn}>
+      <View style={styles.btnContainer}>
       <Button title="x" onPress={() => {
         handleDelete(item.id)
         }}></Button>
-        <Button title="i" onPress={() => handlePress(item)} color="grey" />
+      <Button title="i" onPress={() => handlePress(item)} color="grey" />
       </View>
     </View>
     )
@@ -32,7 +32,9 @@ const styles = StyleSheet.create({
     color: "black",
     fontSize: 20,
   },
-  btn: {
+  btnContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
     marginLeft: 10,
   }
 });
