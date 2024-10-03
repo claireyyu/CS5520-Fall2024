@@ -1,11 +1,16 @@
 import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Home from './components/Home'
 
 
-export default function App () {
+export default function App() {
+  const Stack = createNativeStackNavigator();
+
   return (
     <NavigationContainer>
-      <Home />
+      <Stack.Navigator>
+        <Stack.Screen name="Home" component={Home} />
+      </Stack.Navigator>
     </NavigationContainer>
   )
 }
