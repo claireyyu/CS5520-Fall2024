@@ -9,12 +9,17 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Home" component={Home} options={{ 
-          title: 'All My Goals',
+        <Stack.Screen name="Home" component={Home}
+          options={{
+            title: "All My Goals",
+            headerStyle: { backgroundColor: 'lightseagreen' },
+            headerTintColor: 'white'
+          }}/>
+        <Stack.Screen name="Details" component={GoalDetails} options={({route, navigation}) => ({
+          title: route.params ? `${route.params.currentItem.text}` : 'More Details',
           headerStyle: { backgroundColor: 'lightseagreen' },
           headerTintColor: 'white'
-        }}/>
-        <Stack.Screen name="Details" component={GoalDetails} />
+        })} />
       </Stack.Navigator>
     </NavigationContainer>
   )
