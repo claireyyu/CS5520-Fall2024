@@ -18,9 +18,9 @@ export default function App() {
           }}/>
         <Stack.Screen name="Details" component={GoalDetails} options={({route, navigation}) => ({
           title: route.params ? `${route.params.currentItem.text}` : 'More Details',
-          headerRight: () => (
-            <Button title="Warning" onPress={() => (console.log('Warning'))} color="white"/>
-          )
+          // headerRight: () => (
+          //   <Button title="Warning" onPress={() => (console.log('Warning'))} color="white"/>
+          // )
         })} />
       </Stack.Navigator>
     </NavigationContainer>
