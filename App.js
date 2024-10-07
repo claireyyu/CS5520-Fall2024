@@ -1,7 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Home from './components/Home'
-import GoalDetails from './components/GoalDetails'
+import Home from './Components/Home'
+import GoalDetails from './Components/GoalDetails'
 import { Button } from 'react-native'
 export default function App() {
   const Stack = createNativeStackNavigator();
