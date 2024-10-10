@@ -1,6 +1,6 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { View, Text, Button } from 'react-native'
+import { View, Text, Button, StyleSheet } from 'react-native'
 import React, { useState, useEffect } from 'react'
 
 export default function GoalDetails({ navigation, route }) {
@@ -22,12 +22,25 @@ export default function GoalDetails({ navigation, route }) {
   }, [isWarning])
 
   return (
-    <View>
+    <View style={styles.container}>
       {route.params
         ? (<Text style={{color: textStyle}}>Detail of {route.params.currentItem.text} with {route.params.currentItem.id}</Text>)
         : (<Text style={{color: textStyle}}>More Details</Text>)
       }
-      <Button title="More Details" onPress={() => {navigation.push('Details')}}/>
+      <View style={styles.buttonContainer}>
+        <Button title="More Details" onPress={() => { navigation.push('Details') }} />
+      </View>
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+})

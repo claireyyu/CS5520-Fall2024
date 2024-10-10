@@ -7,7 +7,12 @@ const GoalItem = ({ item, handleDelete }) => {
 
   return (
     <View key={item.id} style={styles.textContainer}>
-      <Pressable onPress={() => navigation.navigate('Details', {currentItem: item})} style={styles.horizontalContainer}>
+      <Pressable onPress={() => navigation.navigate('Details', { currentItem: item })}
+        style={({pressed}) => {
+          return [styles.horizontalContainer, pressed && styles.pressedStyle]
+        }}
+        android_ripple={{color: "gray", radius: 20}}
+      >
         <Text style={styles.textStyle}>{item.text}</Text>
         <View style={styles.btnContainer}>
           <Button title="x" onPress={() => {
@@ -46,6 +51,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     marginLeft: 10,
+  },
+  pressedStyle: {
+    backgroundColor: 'grey',
+    flexDirection: "row",
+    alignItems: "center",
   }
 });
 
