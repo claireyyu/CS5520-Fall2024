@@ -7,7 +7,6 @@ export default function GoalDetails({ navigation, route }) {
   const [isWarning, setIsWarning] = useState(false);
   const textStyle = isWarning ? 'red' : '';
 
-
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
@@ -18,7 +17,6 @@ export default function GoalDetails({ navigation, route }) {
     if (isWarning) {
       navigation.setOptions({
         title: 'Warning!',
-        headerTintColor: 'red'
       })
     }
   }, [isWarning])
@@ -29,7 +27,7 @@ export default function GoalDetails({ navigation, route }) {
         ? (<Text style={{color: textStyle}}>Detail of {route.params.currentItem.text} with {route.params.currentItem.id}</Text>)
         : (<Text style={{color: textStyle}}>More Details</Text>)
       }
-      <Button title="More Details" onPress={() => {navigation.push('Details')}} color={isWarning ? 'red' : ''}/>
+      <Button title="More Details" onPress={() => {navigation.push('Details')}}/>
     </View>
   )
 }

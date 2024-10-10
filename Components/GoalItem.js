@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Button } from 'react-native'
+import { View, Text, StyleSheet, Button, Pressable } from 'react-native'
 import React from 'react'
 import { useNavigation } from '@react-navigation/native';
 
@@ -7,13 +7,15 @@ const GoalItem = ({ item, handleDelete }) => {
 
   return (
     <View key={item.id} style={styles.textContainer}>
-      <Text style={styles.textStyle}>{item.text}</Text>
-      <View style={styles.btnContainer}>
-      <Button title="x" onPress={() => {
-        handleDelete(item.id)
-        }}></Button>
-      <Button title="i" onPress={() => navigation.navigate('Details', {currentItem: item})} color="grey" />
-      </View>
+      <Pressable onPress={() => navigation.navigate('Details', {currentItem: item})} style={styles.horizontalContainer}>
+        <Text style={styles.textStyle}>{item.text}</Text>
+        <View style={styles.btnContainer}>
+          <Button title="x" onPress={() => {
+            handleDelete(item.id)
+            }}></Button>
+          {/* <Button title="i" onPress={() => navigation.navigate('Details', {currentItem: item})} color="grey" /> */}
+        </View>
+      </Pressable>
     </View>
     )
 }
@@ -21,6 +23,11 @@ const GoalItem = ({ item, handleDelete }) => {
 const styles = StyleSheet.create({
   container:{
     flex: 1,
+  },
+  horizontalContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   textContainer: {
     marginTop: 5,
