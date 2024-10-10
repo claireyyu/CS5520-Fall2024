@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Button, Pressable } from 'react-native'
+import { View, Text, StyleSheet, Button, Pressable, Alert } from 'react-native'
 import React from 'react'
 import { useNavigation } from '@react-navigation/native';
 import PressableButton from './PressableButton';
@@ -8,13 +8,32 @@ import Feather from '@expo/vector-icons/Feather';
 const GoalItem = ({ item, handleDelete }) => {
   const navigation = useNavigation();
 
+  function handleNavigation() {
+    navigation.navigate('Details', { currentItem: item })
+  }
+
+  function handleLongPress() {
+    Alert.alert(
+      "Delete Goal",
+      "Are you sure you want to delete this goal?",
+      [
+        {
+          text: "Cancel",
+          style: "cancel"
+        },
+        { text: "OK", onPress: () => handleDelete(item.id) }
+      ]
+    );
+  }
+
   return (
     <View key={item.id} style={styles.textContainer}>
-      <Pressable onPress={() => navigation.navigate('Details', { currentItem: item })}
+      <Pressable onPress={handleNavigation}
         style={({pressed}) => {
           return [styles.horizontalContainer, pressed && styles.pressedStyle]
         }}
-        android_ripple={{color: "gray", radius: 20}}
+        android_ripple={{ color: "gray", radius: 20 }}
+        onLongPress={handleLongPress}
       >
         <Text style={styles.textStyle}>{item.text}</Text>
         <View style={styles.btnContainer}>
@@ -24,15 +43,11 @@ const GoalItem = ({ item, handleDelete }) => {
             }}
             componentStyle={styles.deleteButton}
             pressedStyle={styles.pressedButtonStyle}>
-            {/* <Text style={styles.deleteButton}>X</Text> */}
             <Feather name="trash" size={24} color="black" />
           </PressableButton>
-          {/* <Button title="x" onPress={() => {
-            handleDelete(item.id)
-            }}></Button> */}
-          {/* <Button title="i" onPress={() => navigation.navigate('Details', {currentItem: item})} color="grey" /> */}
         </View>
       </Pressable>
+
     </View>
     )
 }
@@ -75,7 +90,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   pressedButtonStyle: {
-    backgroundColor: 'grey',
+    backgroundColor: 'white',
+    opacity: 0.5,
   },
 });
 

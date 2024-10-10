@@ -9,7 +9,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{
-        headerStyle: { backgroundColor: 'lightseagreen' },
+        headerStyle: { backgroundColor: 'purple' },
         headerTintColor: 'white'
       }}>
         <Stack.Screen name="Home" component={Home}
