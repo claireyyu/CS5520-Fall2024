@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, Button, Pressable } from 'react-native'
 import React from 'react'
 import { useNavigation } from '@react-navigation/native';
+import PressableButton from './PressableButton';
 
 const GoalItem = ({ item, handleDelete }) => {
   const navigation = useNavigation();
@@ -15,9 +16,17 @@ const GoalItem = ({ item, handleDelete }) => {
       >
         <Text style={styles.textStyle}>{item.text}</Text>
         <View style={styles.btnContainer}>
-          <Button title="x" onPress={() => {
+          <PressableButton
+            pressedFunction={() => {
+              handleDelete(item.id)
+            }}
+            componentStyle={styles.deleteButton}
+            pressedStyle={styles.pressedStyle}>
+            <Text style={styles.deleteButton}>X</Text>
+          </PressableButton>
+          {/* <Button title="x" onPress={() => {
             handleDelete(item.id)
-            }}></Button>
+            }}></Button> */}
           {/* <Button title="i" onPress={() => navigation.navigate('Details', {currentItem: item})} color="grey" /> */}
         </View>
       </Pressable>
@@ -30,6 +39,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   horizontalContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  pressedStyle: {
+    backgroundColor: 'grey',
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
@@ -51,12 +66,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     marginLeft: 10,
+    marginTop: 5,
   },
-  pressedStyle: {
-    backgroundColor: 'grey',
-    flexDirection: "row",
-    alignItems: "center",
-  }
+  deleteButton: {
+    // backgroundColor: "red",
+  },
 });
 
 
