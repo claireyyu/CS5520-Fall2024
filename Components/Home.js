@@ -4,6 +4,7 @@ import { useState } from "react";
 import Header from "./Header";
 import Input from "./Input";
 import GoalItem from "./GoalItem";
+import PressableButton from "./PressableButton";
 
 export default function Home({ navigation }) {
   const appName = "My app!";
@@ -66,7 +67,13 @@ export default function Home({ navigation }) {
       <View style={styles.topView}>
         <Header name={appName}></Header>
         <Input textInputFocus={true} inputHandler={handleInputData} modalVisible={isModalVisible} alertHandler={handleAlert} />
-        <Button title="Add a goal" onPress={handleModalVisibility}></Button>
+        <PressableButton
+          pressedFunction={handleModalVisibility}
+          componentStyle={{backgroundColor: 'purple', borderRadius: 10}}
+        >
+          <Text style={styles.buttonText}>Add a goal</Text>
+        </PressableButton>
+        {/* <Button title="Add a goal" onPress={handleModalVisibility}></Button> */}
       </View>
       <View style={styles.bottomView}>
       <FlatList
@@ -135,9 +142,6 @@ const styles = StyleSheet.create({
     color: "purple",
     textAlign: "center",
     marginTop: 20,
-    borderColor: "purple",
-    borderWidth: 2,
-    borderRadius: 5,
     padding: 8,
     marginBottom: 10,
   },
@@ -147,5 +151,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'grey',
     marginVertical: 5,
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 20,
+    padding: 10,
   },
 });
