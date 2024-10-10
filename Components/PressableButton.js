@@ -7,7 +7,7 @@ export default function PressableButton( {children, pressedFunction, componentSt
       onPress={pressedFunction}
       style={
         ({ pressed }) => {
-          return [styles.defaultStyle, componentStyle, pressed && pressedStyle, pressed && styles.defaultPressedStyle]
+          return [styles.defaultStyle, componentStyle, pressed && styles.defaultPressedStyle, pressed && pressedStyle]
         }}
     >
       <View>{children}</View>
@@ -17,9 +17,11 @@ export default function PressableButton( {children, pressedFunction, componentSt
 
 const styles = StyleSheet.create({
   defaultStyle: {
-    backgroundColor: 'beige'
+    backgroundColor: 'beige',
+    borderRadius: 10,
+    // padding: 10,
   },
   defaultPressedStyle: {
-    backgroundColor: 'grey'
+    backgroundColor: 'white',
   }
 })
