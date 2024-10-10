@@ -69,6 +69,7 @@ export default function Home({ navigation }) {
         <Input textInputFocus={true} inputHandler={handleInputData} modalVisible={isModalVisible} alertHandler={handleAlert} />
         <PressableButton
           pressedFunction={handleModalVisibility}
+          componentStyle={{backgroundColor: 'purple', borderRadius: 10}}
         >
           <Text style={styles.buttonText}>Add a goal</Text>
         </PressableButton>
@@ -153,7 +154,6 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: "white",
-    backgroundColor: "purple",
     fontSize: 20,
     padding: 10,
   },

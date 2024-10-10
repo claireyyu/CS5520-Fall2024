@@ -19,7 +19,6 @@ const styles = StyleSheet.create({
   defaultStyle: {
     backgroundColor: 'beige',
     borderRadius: 10,
-    // padding: 10,
   },
   defaultPressedStyle: {
     backgroundColor: 'white',

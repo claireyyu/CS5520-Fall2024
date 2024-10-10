@@ -2,6 +2,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { View, Text, Button, StyleSheet } from 'react-native'
 import React, { useState, useEffect } from 'react'
+import Entypo from '@expo/vector-icons/Entypo';
 
 export default function GoalDetails({ navigation, route }) {
   const [isWarning, setIsWarning] = useState(false);
@@ -10,7 +11,8 @@ export default function GoalDetails({ navigation, route }) {
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <Button title="Warning" onPress={() => setIsWarning(true)} color="red" />
+        <Entypo name="warning" size={24} color="yellow" />
+        // <Button title="Warning" onPress={() => setIsWarning(true)} color="red" />
       )
     })
 
