@@ -2,7 +2,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { View, Text, Button, StyleSheet } from 'react-native'
 import React, { useState, useEffect } from 'react'
-import AntDesign from '@expo/vector-icons/AntDesign';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import PressableButton from './PressableButton';
 
 export default function GoalDetails({ navigation, route }) {
@@ -17,7 +17,7 @@ export default function GoalDetails({ navigation, route }) {
           componentStyle={styles.iconStyle}
           pressedStyle={styles.iconPressedStyle}
         >
-          <AntDesign name="warning" size={24} color="white" />
+          <MaterialIcons name="warning" size={24} color="yellow" />
         </PressableButton>
       )
     })
