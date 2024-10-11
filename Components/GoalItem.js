@@ -5,7 +5,7 @@ import PressableButton from './PressableButton';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 
-const GoalItem = ({ item, handleDelete }) => {
+const GoalItem = ({ item, handleDelete, onPressInHighlight, onPressOutHighlight }) => {
   const navigation = useNavigation();
 
   function handleNavigation() {
@@ -29,6 +29,8 @@ const GoalItem = ({ item, handleDelete }) => {
   return (
     <View key={item.id} style={styles.textContainer}>
       <Pressable onPress={handleNavigation}
+        onPressIn={onPressInHighlight}
+        onPressOut={onPressOutHighlight}
         style={({pressed}) => {
           return [styles.horizontalContainer, pressed && styles.pressedStyle]
         }}
@@ -42,7 +44,7 @@ const GoalItem = ({ item, handleDelete }) => {
               handleDelete(item.id)
             }}
             componentStyle={styles.deleteButton}
-            pressedStyle={styles.pressedButtonStyle}>
+          >
             <MaterialIcons name="delete" size={24} color="black" />
           </PressableButton>
         </View>
@@ -62,14 +64,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   pressedStyle: {
-    backgroundColor: 'grey',
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    opacity: 0.5,
   },
   textContainer: {
     marginTop: 5,
-    backgroundColor: "white",
+    backgroundColor: "lightgrey",
     padding: 10,
     flexDirection: "row",
     justifyItems: "space-between", 
@@ -86,11 +88,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   deleteButton: {
-    backgroundColor: 'white',
-  },
-  pressedButtonStyle: {
-    backgroundColor: 'white',
-    opacity: 0.5,
+    backgroundColor: 'lightgrey',
   },
 });
 

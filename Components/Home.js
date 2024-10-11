@@ -75,30 +75,36 @@ export default function Home({ navigation }) {
       </View>
       <View style={styles.bottomView}>
         <FlatList
-          data={goals}
-          contentContainerStyle={styles.contentContainer}
-          renderItem={({ item, separators }) => (
-          <GoalItem
-              item={item}
-              handleDelete={goalDeleteHandler}
-            />
-          )}
-          ListEmptyComponent={() => (
-            <Text style={styles.emptyText}>No Goals to Show</Text>
-          )}
-          ListHeaderComponent={() =>
-            goals.length !== 0 && <Text style={styles.headerText}>My Goal List</Text>
-          }
-          ListFooterComponent={() =>
-            goals.length !== 0 && <Button title="Delete All" onPress={handleDeleteAll} />
-          }
-          ItemSeparatorComponent={({ highlighted }) => (
-            <View style={[
-              styles.separator,
-              highlighted && styles.highlightedSeparator
-            ]} />
-          )}
-        />
+            data={goals}
+            contentContainerStyle={styles.contentContainer}
+            renderItem={({ item, separators }) => {
+              return (
+                <GoalItem
+                  item={item}
+                  handleDelete={goalDeleteHandler}
+                  onPressInHighlight={separators.highlight}
+                  onPressOutHighlight={separators.unhighlight}
+                />
+              );
+            }}
+            ListEmptyComponent={() => (
+              <Text style={styles.emptyText}>No Goals to Show</Text>
+            )}
+            ListHeaderComponent={() =>
+              goals.length !== 0 && <Text style={styles.headerText}>My Goal List</Text>
+            }
+            ListFooterComponent={() =>
+              goals.length !== 0 && <Button title="Delete All" onPress={handleDeleteAll} />
+            }
+            ItemSeparatorComponent={({ highlighted }) => (
+              <View
+                style={[
+                  styles.separator,
+                  highlighted ? styles.highlightedSeparator : null,
+                ]}
+              />
+            )}
+          />
       </View>
     </SafeAreaView>
   );

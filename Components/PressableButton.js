@@ -21,6 +21,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   defaultPressedStyle: {
-    backgroundColor: 'white',
+    opacity: 0.5,
   }
 })
