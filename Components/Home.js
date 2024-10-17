@@ -6,7 +6,7 @@ import Input from "./Input";
 import GoalItem from "./GoalItem";
 import PressableButton from "./PressableButton";
 import { database } from "../Firebase/firebaseSetup";
-import { writeToDB } from "../Firebase/firestoreHelper";
+import { writeToDB, deleteFromDB, deleteAll } from "../Firebase/firestoreHelper";
 import { onSnapshot, collection, doc } from "firebase/firestore";
 
 export default function Home({ navigation }) {
@@ -26,8 +26,8 @@ export default function Home({ navigation }) {
       })
       // console.log("Current goals: ", currGoals);
       setGoals(currGoals);
-    }, [])
-  });
+    })
+  },[]);
 
   function handleInputData(inputData) {
     // declare a new js object
@@ -52,24 +52,22 @@ export default function Home({ navigation }) {
         onPress: () => console.log('Cancel Pressed'),
         style: 'cancel',
       },
-      {text: 'OK', onPress: () => setIsModalVisible(false)},
+      {text: 'OK', onPress: () => deleteAll(collectionName)},
     ]);
   }
 
   function goalDeleteHandler(deletedID) {
-    setGoals((prevGoals) => {
-      return prevGoals.filter((goal) => goal.id !== deletedID);
-    });
+    deleteFromDB(deletedID, collectionName);
   }
 
   function handleDeleteAll() {
+    console.log("Delete all goals");
     Alert.alert('Do you want to delete all goals', 'Press on OK to confirm', [
       {
         text: 'Cancel',
-        onPress: () => console.log('Cancel Pressed'),
         style: 'cancel',
       },
-      { text: 'OK', onPress: () => setGoals([]) },
+      { text: 'OK', onPress: () => deleteAll(collectionName) },
     ]);
   }
 
