@@ -7,7 +7,7 @@ import GoalItem from "./GoalItem";
 import PressableButton from "./PressableButton";
 import { database } from "../Firebase/firebaseSetup";
 import { writeToDB } from "../Firebase/firestoreHelper";
-import { onSnapshot, collection } from "firebase/firestore";
+import { onSnapshot, collection, doc } from "firebase/firestore";
 
 export default function Home({ navigation }) {
   const appName = "My app!";
@@ -21,8 +21,10 @@ export default function Home({ navigation }) {
     onSnapshot(collection(database, collectionName), (querySnapshot) => { 
       const currGoals = [];
       querySnapshot.forEach((docSnapshot) => {
-        currGoals.push(docSnapshot.data());
+        const id = docSnapshot.id;
+        currGoals.push({ ...docSnapshot.data(), "id": id });
       })
+      // console.log("Current goals: ", currGoals);
       setGoals(currGoals);
     }, [])
   });
