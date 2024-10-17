@@ -1,30 +1,39 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, TextInput, View, Button, SafeAreaView, Alert, ScrollView, FlatList, Pressable} from "react-native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "./Header";
 import Input from "./Input";
 import GoalItem from "./GoalItem";
 import PressableButton from "./PressableButton";
-import {app} from "../Firebase/firebaseSetup";
+import { database } from "../Firebase/firebaseSetup";
+import { writeToDB } from "../Firebase/firestoreHelper";
+import { onSnapshot, collection } from "firebase/firestore";
 
 export default function Home({ navigation }) {
-  console.log(app)
   const appName = "My app!";
   const [input, setInput] = useState("");
   const [goals, setGoals] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
-
+  const collectionName = "goals";
+  
+  // querySnapshot is an array of documentSnapshots
+  useEffect(() => {
+    onSnapshot(collection(database, collectionName), (querySnapshot) => { 
+      const currGoals = [];
+      querySnapshot.forEach((docSnapshot) => {
+        currGoals.push(docSnapshot.data());
+      })
+      setGoals(currGoals);
+    }, [])
+  });
 
   function handleInputData(inputData) {
-    console.log("app.js: " + inputData);
     // declare a new js object
     const newGoal = {
-      id: Math.random().toString(),
       text: inputData,
     };
-    setGoals((prevGoals) => {
-      return [...prevGoals, newGoal];
-    });
+    // write to the database
+    writeToDB(newGoal, collectionName);
     setInput(inputData);
     setIsModalVisible(false);
   }
