@@ -18,15 +18,19 @@ export default function Home({ navigation }) {
   
   // querySnapshot is an array of documentSnapshots
   useEffect(() => {
-    onSnapshot(collection(database, collectionName), (querySnapshot) => { 
+    const unsubscribe = onSnapshot(collection(database, collectionName), (querySnapshot) => {
       const currGoals = [];
       querySnapshot.forEach((docSnapshot) => {
         const id = docSnapshot.id;
         currGoals.push({ ...docSnapshot.data(), "id": id });
       })
-      // console.log("Current goals: ", currGoals);
       setGoals(currGoals);
-    })
+    });
+    
+    return () => {
+      console.log("unsubscribing");
+      unsubscribe();
+    };
   },[]);
 
   function handleInputData(inputData) {
@@ -52,7 +56,7 @@ export default function Home({ navigation }) {
         onPress: () => console.log('Cancel Pressed'),
         style: 'cancel',
       },
-      {text: 'OK', onPress: () => deleteAll(collectionName)},
+      {text: 'OK', onPress: () => setIsModalVisible(false)},
     ]);
   }
 

@@ -1,4 +1,4 @@
-import { collection, addDoc, deleteDoc, doc, getDocs } from "firebase/firestore"; 
+import { collection, addDoc, deleteDoc, doc, getDocs, updateDoc } from "firebase/firestore"; 
 import { database } from "./firebaseSetup";
 
 export async function writeToDB(data, collectionName) {
@@ -31,3 +31,15 @@ export async function deleteAll(collectionName) {
     console.error("Error deleting all documents");
   }
 }
+
+export const updateWarning = async (dataId, collectionName) => {
+  try {
+    const goalRef = doc(database, collectionName, dataId);
+    await updateDoc(goalRef, {
+      warning: true,
+    });
+    console.log("Warning flag added successfully.");
+  } catch (error) {
+    console.error("Error updating warning: ", error);
+  }
+};
