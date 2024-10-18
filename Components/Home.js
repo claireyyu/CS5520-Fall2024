@@ -52,7 +52,7 @@ export default function Home({ navigation }) {
         onPress: () => console.log('Cancel Pressed'),
         style: 'cancel',
       },
-      {text: 'OK', onPress: () => deleteAll(collectionName)},
+      {text: 'OK', onPress: () => setIsModalVisible(false)},
     ]);
   }
 
