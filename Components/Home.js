@@ -1,28 +1,41 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, TextInput, View, Button, SafeAreaView, Alert, ScrollView, FlatList, Pressable} from "react-native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "./Header";
 import Input from "./Input";
 import GoalItem from "./GoalItem";
 import PressableButton from "./PressableButton";
+import { database } from "../Firebase/firebaseSetup";
+import { writeToDB, deleteFromDB, deleteAll } from "../Firebase/firestoreHelper";
+import { onSnapshot, collection, doc } from "firebase/firestore";
 
 export default function Home({ navigation }) {
   const appName = "My app!";
   const [input, setInput] = useState("");
   const [goals, setGoals] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
-
+  const collectionName = "goals";
+  
+  // querySnapshot is an array of documentSnapshots
+  useEffect(() => {
+    onSnapshot(collection(database, collectionName), (querySnapshot) => { 
+      const currGoals = [];
+      querySnapshot.forEach((docSnapshot) => {
+        const id = docSnapshot.id;
+        currGoals.push({ ...docSnapshot.data(), "id": id });
+      })
+      // console.log("Current goals: ", currGoals);
+      setGoals(currGoals);
+    })
+  },[]);
 
   function handleInputData(inputData) {
-    console.log("app.js: " + inputData);
     // declare a new js object
     const newGoal = {
-      id: Math.random().toString(),
       text: inputData,
     };
-    setGoals((prevGoals) => {
-      return [...prevGoals, newGoal];
-    });
+    // write to the database
+    writeToDB(newGoal, collectionName);
     setInput(inputData);
     setIsModalVisible(false);
   }
@@ -39,24 +52,22 @@ export default function Home({ navigation }) {
         onPress: () => console.log('Cancel Pressed'),
         style: 'cancel',
       },
-      {text: 'OK', onPress: () => setIsModalVisible(false)},
+      {text: 'OK', onPress: () => deleteAll(collectionName)},
     ]);
   }
 
   function goalDeleteHandler(deletedID) {
-    setGoals((prevGoals) => {
-      return prevGoals.filter((goal) => goal.id !== deletedID);
-    });
+    deleteFromDB(deletedID, collectionName);
   }
 
   function handleDeleteAll() {
+    console.log("Delete all goals");
     Alert.alert('Do you want to delete all goals', 'Press on OK to confirm', [
       {
         text: 'Cancel',
-        onPress: () => console.log('Cancel Pressed'),
         style: 'cancel',
       },
-      { text: 'OK', onPress: () => setGoals([]) },
+      { text: 'OK', onPress: () => deleteAll(collectionName) },
     ]);
   }
 
