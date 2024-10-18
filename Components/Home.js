@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, TextInput, View, Button, SafeAreaView, Alert, ScrollView, FlatList } from "react-native";
+import { StyleSheet, Text, TextInput, View, Button, SafeAreaView, Alert, ScrollView, FlatList, Pressable} from "react-native";
 import { useState } from "react";
 import Header from "./Header";
 import Input from "./Input";
@@ -20,7 +20,6 @@ export default function Home({ navigation }) {
       id: Math.random().toString(),
       text: inputData,
     };
-    // async
     setGoals((prevGoals) => {
       return [...prevGoals, newGoal];
     });
@@ -73,27 +72,39 @@ export default function Home({ navigation }) {
         >
           <Text style={styles.buttonText}>Add a goal</Text>
         </PressableButton>
-        {/* <Button title="Add a goal" onPress={handleModalVisibility}></Button> */}
       </View>
       <View style={styles.bottomView}>
-      <FlatList
-        data={goals}
-        contentContainerStyle={styles.contentContainer}
-        renderItem={({ item }) => {
-          console.log(item);
-          return <GoalItem item={item} handleDelete={goalDeleteHandler}/>;
-        }}
-        ListEmptyComponent={() => (
-          <Text style={styles.emptyText}>No Goals to Show</Text>
-        )}
-        ListHeaderComponent={() =>
-          goals.length !== 0 && <Text style={styles.headerText}>My Goal List</Text>
-        }
-        ListFooterComponent={() =>
-          goals.length !== 0 && <Button title="Delete All" onPress={handleDeleteAll} />
-        }
-        ItemSeparatorComponent={() => <View style={styles.separator}></View>}
-      />
+        <FlatList
+            data={goals}
+            contentContainerStyle={styles.contentContainer}
+            renderItem={({ item, separators }) => {
+              return (
+                <GoalItem
+                  item={item}
+                  handleDelete={goalDeleteHandler}
+                  onPressInHighlight={separators.highlight}
+                  onPressOutHighlight={separators.unhighlight}
+                />
+              );
+            }}
+            ListEmptyComponent={() => (
+              <Text style={styles.emptyText}>No Goals to Show</Text>
+            )}
+            ListHeaderComponent={() =>
+              goals.length !== 0 && <Text style={styles.headerText}>My Goal List</Text>
+            }
+            ListFooterComponent={() =>
+              goals.length !== 0 && <Button title="Delete All" onPress={handleDeleteAll} />
+            }
+            ItemSeparatorComponent={({ highlighted }) => (
+              <View
+                style={[
+                  styles.separator,
+                  highlighted ? styles.highlightedSeparator : null,
+                ]}
+              />
+            )}
+          />
       </View>
     </SafeAreaView>
   );
@@ -103,7 +114,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    // alignItems: "center",
     justifyContent: "center",
   },
   contentContainer: {
@@ -148,9 +158,10 @@ const styles = StyleSheet.create({
   separator: {
     height: 4,
     backgroundColor: 'grey',
-    borderWidth: 1,
-    borderColor: 'grey',
     marginVertical: 5,
+  },
+  highlightedSeparator: {
+    backgroundColor: 'purple',
   },
   buttonText: {
     color: "white",

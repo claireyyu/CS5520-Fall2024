@@ -2,7 +2,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { View, Text, Button, StyleSheet } from 'react-native'
 import React, { useState, useEffect } from 'react'
-import Entypo from '@expo/vector-icons/Entypo';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import PressableButton from './PressableButton';
 
 export default function GoalDetails({ navigation, route }) {
   const [isWarning, setIsWarning] = useState(false);
@@ -11,8 +12,13 @@ export default function GoalDetails({ navigation, route }) {
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <Entypo name="warning" size={24} color="yellow" />
-        // <Button title="Warning" onPress={() => setIsWarning(true)} color="red" />
+        <PressableButton
+          pressedFunction={() => setIsWarning(true)}
+          componentStyle={styles.iconStyle}
+          pressedStyle={styles.iconPressedStyle}
+        >
+          <MaterialIcons name="warning" size={24} color="yellow" />
+        </PressableButton>
       )
     })
 
@@ -45,4 +51,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
+  iconStyle: {
+    backgroundColor: 'purple',
+  },
+  iconPressedStyle: {
+    backgroundColor: 'purple',
+    opacity: 0.5,
+  }
 })
