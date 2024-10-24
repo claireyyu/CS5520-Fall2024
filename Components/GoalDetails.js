@@ -5,6 +5,7 @@ import React, { useState, useEffect } from 'react'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import PressableButton from './PressableButton';
 import { updateWarning } from '../Firebase/firestoreHelper';
+import GoalUsers from './GoalUsers';
 
 export default function GoalDetails({ navigation, route }) {
   const [isWarning, setIsWarning] = useState(false);
@@ -44,6 +45,7 @@ export default function GoalDetails({ navigation, route }) {
       }
       <View style={styles.buttonContainer}>
         <Button title="More Details" onPress={() => { navigation.push('Details') }} />
+        <GoalUsers/>
       </View>
     </View>
   )
@@ -55,7 +57,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   buttonContainer: {
-    flexDirection: "row",
     alignItems: "center",
   },
   iconStyle: {
