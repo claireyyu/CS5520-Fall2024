@@ -13,7 +13,15 @@ export async function writeToDB(data, collectionName) {
 
 export async function deleteFromDB(dataId, collectionName) {
   try {
+    // delete subcollection too
+    const subCollection = collection(database, `${collectionName}/${dataId}/users`);
+    const subCollectionSnapShot = await getDocs(subCollection);
+    subCollectionSnapShot.forEach(async (doc) => {
+      await deleteDoc(doc.ref);
+    });
+
     await deleteDoc(doc(database, collectionName, dataId));
+
     console.log("Document successfully deleted!");
   }
   catch (e) {
