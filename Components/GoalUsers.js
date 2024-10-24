@@ -1,10 +1,13 @@
 import { View, Text, FlatList } from 'react-native'
 import React from 'react'
 import { useState, useEffect } from 'react'
+import { writeToDB } from '../Firebase/firestoreHelper';
 
-const GoalUsers = () => {
+const GoalUsers = ({goalId}) => {
 
   const [users, setUsers] = useState([]);
+  const collectionName = 'goals';
+  const subCollectionName = 'users';
 
   useEffect(() => {
     async function fetchData() {
@@ -17,9 +20,14 @@ const GoalUsers = () => {
           throw new Error(`Response status: ${response.status}`);
         }
     
-        const json = await response.json();
-        setUsers(json);
-        console.log(json);
+        const jsonData = await response.json();
+        setUsers(jsonData);
+
+        jsonData.forEach((user) => {
+          writeToDB(user, `${collectionName}/${goalId}/${subCollectionName}`);
+        });
+        
+        console.log(jsonData);
       } catch (error) {
         console.error(error.message);
       }

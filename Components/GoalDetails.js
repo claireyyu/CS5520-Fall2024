@@ -45,7 +45,7 @@ export default function GoalDetails({ navigation, route }) {
       }
       <View style={styles.buttonContainer}>
         <Button title="More Details" onPress={() => { navigation.push('Details') }} />
-        <GoalUsers/>
+        <GoalUsers goalId={route.params.currentItem.id} />
       </View>
     </View>
   )
