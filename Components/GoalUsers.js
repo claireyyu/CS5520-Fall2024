@@ -49,25 +49,7 @@ const GoalUsers = ({goalId}) => {
       <Text>{name}</Text>
     </View>
   );
-
-  async function handlePostUser() { 
-    const url = "https://jsonplaceholder.typicode.com/users";
-    try { 
-      const response = await fetch(url, {
-        method: 'POST',
-        body: JSON.stringify({
-          name: 'User1',
-        }, {
-          name: 'User2',
-        }),
-      }
-      );
-    }
-    catch (error) {
-      console.error(error.message);
-    }
-  }
-
+  
   return (
     <View>
       <FlatList
@@ -75,7 +57,6 @@ const GoalUsers = ({goalId}) => {
         renderItem={({item}) => <Item name={item.name} />}
         keyExtractor={item => item.id}
       />
-      {/* <Button title="Post" onPress={handlePostUser}></Button> */}
     </View>
   )
 }
