@@ -1,4 +1,4 @@
-import { collection, addDoc, deleteDoc, doc, getDocs } from "firebase/firestore"; 
+import { collection, addDoc, deleteDoc, doc, getDocs, updateDoc } from "firebase/firestore"; 
 import { database } from "./firebaseSetup";
 
 export async function writeToDB(data, collectionName) {
@@ -13,7 +13,15 @@ export async function writeToDB(data, collectionName) {
 
 export async function deleteFromDB(dataId, collectionName) {
   try {
+    // delete subcollection too
+    const subCollection = collection(database, `${collectionName}/${dataId}/users`);
+    const subCollectionSnapShot = await getDocs(subCollection);
+    subCollectionSnapShot.forEach(async (doc) => {
+      await deleteDoc(doc.ref);
+    });
+
     await deleteDoc(doc(database, collectionName, dataId));
+
     console.log("Document successfully deleted!");
   }
   catch (e) {
@@ -31,3 +39,28 @@ export async function deleteAll(collectionName) {
     console.error("Error deleting all documents");
   }
 }
+
+export async function readAll(collectionName) {
+  try {
+    const querySnapShot = await getDocs(collection(database, collectionName));
+    const allDocs = []
+    querySnapShot.forEach((doc) => {
+      allDocs.push(doc.data());
+    });
+    return allDocs;
+  } catch {
+    console.error("Error deleting all documents");
+  }
+}
+
+export const updateWarning = async (dataId, collectionName) => {
+  try {
+    const goalRef = doc(database, collectionName, dataId);
+    await updateDoc(goalRef, {
+      warning: true,
+    });
+    console.log("Warning flag added successfully.");
+  } catch (error) {
+    console.error("Error updating warning: ", error);
+  }
+};
