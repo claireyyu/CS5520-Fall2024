@@ -1,7 +1,7 @@
 import { View, Text, FlatList } from 'react-native'
 import React from 'react'
 import { useState, useEffect } from 'react'
-import { writeToDB } from '../Firebase/firestoreHelper';
+import { writeToDB, readAll } from '../Firebase/firestoreHelper';
 
 const GoalUsers = ({goalId}) => {
 
@@ -14,6 +14,14 @@ const GoalUsers = ({goalId}) => {
       const url = "https://jsonplaceholder.typicode.com/users";
       
       try {
+        // if there is, don't fetch data from the server and just set users with the data
+        // if there isn't, fetch data from the server
+        const allUsers = await readAll(`${collectionName}/${goalId}/${subCollectionName}`);
+        if (allUsers.length > 0) {
+          setUsers(allUsers);
+          return;
+        }
+
         const response = await fetch(url);
 
         if (!response.ok) {
@@ -26,7 +34,7 @@ const GoalUsers = ({goalId}) => {
         jsonData.forEach((user) => {
           writeToDB(user, `${collectionName}/${goalId}/${subCollectionName}`);
         });
-        
+
         console.log(jsonData);
       } catch (error) {
         console.error(error.message);

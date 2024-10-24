@@ -32,6 +32,19 @@ export async function deleteAll(collectionName) {
   }
 }
 
+export async function readAll(collectionName) {
+  try {
+    const querySnapShot = await getDocs(collection(database, collectionName));
+    const allDocs = []
+    querySnapShot.forEach((doc) => {
+      allDocs.push(doc.data());
+    });
+    return allDocs;
+  } catch {
+    console.error("Error deleting all documents");
+  }
+}
+
 export const updateWarning = async (dataId, collectionName) => {
   try {
     const goalRef = doc(database, collectionName, dataId);
