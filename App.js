@@ -82,7 +82,7 @@ export default function App() {
       } else {
         setIsUserLoggedIn(false);
       }
-    })
+    });
     return () => {
       unsubscribe();
     }
