@@ -8,6 +8,7 @@ import SignUpForm from './Components/SignUpForm';
 import LoginForm from './Components/LoginForm';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './Firebase/firebaseSetup';
+import Profile from './Components/Profile';
 
 const Stack = createNativeStackNavigator();
 
@@ -27,10 +28,22 @@ const AuthStack = (
 
 const AppStack = (
   <>
+
     <Stack.Screen name="Home" component={Home}
+      options={({route, navigation}) => ({
+        title: 'All My Goals',
+        headerRight: () => (
+          <Button
+            onPress={() => navigation.navigate('Profile')}
+            title="Profile"
+            color="white"
+          />
+        ),
+      })} />
+    <Stack.Screen name="Profile" component={Profile}
       options={{
-        title: "All My Goals"
-      }}/>
+      title: "Profile",
+    }}/>
     <Stack.Screen name="Details" component={GoalDetails} options={({route, navigation}) => ({
       title: route.params ? `${route.params.currentItem.text}` : 'More Details',
     })} />
