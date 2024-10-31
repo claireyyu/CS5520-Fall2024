@@ -19,7 +19,6 @@ export default function LoginForm({ navigation }) {
       }
       const userCred = await signInWithEmailAndPassword(auth, email, password);
       console.log(userCred.user);
-      navigation.replace('Home');
     } catch (error) {
       if (error.code === "auth/wrong-password") {
         Alert.alert('Incorrect password');
