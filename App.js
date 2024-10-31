@@ -9,6 +9,9 @@ import LoginForm from './Components/LoginForm';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './Firebase/firebaseSetup';
 import Profile from './Components/Profile';
+import PressableButton from './Components/PressableButton';
+import AntDesign from '@expo/vector-icons/AntDesign';
+
 
 const Stack = createNativeStackNavigator();
 
@@ -33,11 +36,12 @@ const AppStack = (
       options={({route, navigation}) => ({
         title: 'All My Goals',
         headerRight: () => (
-          <Button
-            onPress={() => navigation.navigate('Profile')}
-            title="Profile"
-            color="white"
-          />
+          <PressableButton
+            componentStyle={{backgroundColor: 'purple'}}
+            pressedFunction={() => navigation.navigate('Profile')}
+          >
+            <AntDesign name="user" size={24} color="white" />
+          </PressableButton>
         ),
       })} />
     <Stack.Screen name="Profile" component={Profile}
