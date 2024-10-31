@@ -11,7 +11,16 @@ import { auth } from './Firebase/firebaseSetup';
 import Profile from './Components/Profile';
 import PressableButton from './Components/PressableButton';
 import AntDesign from '@expo/vector-icons/AntDesign';
+import { signOut } from 'firebase/auth';
 
+async function handleSignOut() {
+  try {
+    const data = await signOut(auth);
+    console.log(data);
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 const Stack = createNativeStackNavigator();
 
@@ -46,7 +55,15 @@ const AppStack = (
       })} />
     <Stack.Screen name="Profile" component={Profile}
       options={{
-      title: "Profile",
+        title: "Profile",
+        headerRight: () => (
+          <PressableButton
+            componentStyle={{backgroundColor: 'purple'}}
+            pressedFunction={handleSignOut}
+          >
+            <AntDesign name="logout" size={24} color="white" />
+          </PressableButton>
+        ),
     }}/>
     <Stack.Screen name="Details" component={GoalDetails} options={({route, navigation}) => ({
       title: route.params ? `${route.params.currentItem.text}` : 'More Details',
@@ -58,7 +75,7 @@ export default function App() {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       console.log("Checking user status", user);
       if (user) {
         setIsUserLoggedIn(true);
@@ -66,6 +83,9 @@ export default function App() {
         setIsUserLoggedIn(false);
       }
     })
+    return () => {
+      unsubscribe();
+    }
   }, []);
 
   return (
