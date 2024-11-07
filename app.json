@@ -27,7 +27,7 @@
       [
         "expo-image-picker",
         {
-          "cameraPermission": "The app needs access to your camera."
+          "cameraPermission": "The app needs access to your camera to let you take a picture."
         }
       ]
     ]

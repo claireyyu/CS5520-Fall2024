@@ -1,5 +1,6 @@
 import { Button, StyleSheet, Text, TextInput, View, Modal, Image } from "react-native";
 import React, { useState } from "react";
+import ImageManager from "./ImageManager";
 
 export default function Input({ textInputFocus, inputHandler, modalVisible, alertHandler }) {
   const [text, setText] = useState("");
@@ -70,6 +71,7 @@ export default function Input({ textInputFocus, inputHandler, modalVisible, aler
           <View style={styles.buttonStyle}>
             <Button title="CANCEL" onPress={handleCancel}></Button>
           </View>   
+          <ImageManager />
           <View style={styles.buttonStyle}>
             <Button title="CONFIRM" onPress={handleConfirm} disabled={disabled}></Button>
           </View>     
