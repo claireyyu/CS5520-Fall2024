@@ -7,9 +7,11 @@ import GoalItem from "./GoalItem";
 import PressableButton from "./PressableButton";
 import { database } from "../Firebase/firebaseSetup";
 import { writeToDB, deleteFromDB, deleteAll } from "../Firebase/firestoreHelper";
-import { onSnapshot, collection, doc } from "firebase/firestore";
+import { onSnapshot, collection, doc, query, where } from "firebase/firestore";
+import {auth} from "../Firebase/firebaseSetup";
 
 export default function Home({ navigation }) {
+  const user = auth.currentUser;
   const appName = "My app!";
   const [input, setInput] = useState("");
   const [goals, setGoals] = useState([]);
@@ -18,15 +20,19 @@ export default function Home({ navigation }) {
   
   // querySnapshot is an array of documentSnapshots
   useEffect(() => {
-    const unsubscribe = onSnapshot(collection(database, collectionName), (querySnapshot) => {
+
+    const unsubscribe = onSnapshot(query(collection(database, collectionName), where("owner", "==", user.uid)), (querySnapshot) => {
       const currGoals = [];
       querySnapshot.forEach((docSnapshot) => {
         const id = docSnapshot.id;
         currGoals.push({ ...docSnapshot.data(), "id": id });
       })
       setGoals(currGoals);
+    }, (error) => {
+    console.log("on snapshot", error);
+      Alert.alert(error);
     });
-    
+
     return () => {
       console.log("unsubscribing");
       unsubscribe();
@@ -37,6 +43,7 @@ export default function Home({ navigation }) {
     // declare a new js object
     const newGoal = {
       text: inputData,
+      owner: user.uid
     };
     // write to the database
     writeToDB(newGoal, collectionName);
