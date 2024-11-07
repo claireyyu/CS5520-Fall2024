@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, Button, Alert, Image } from 'react-native';
 import React, { useState } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 
-function ImageManager() {
+function ImageManager({imageHandler}) {
   const [response, requestPermission] = ImagePicker.useCameraPermissions();
   const [image, setImage] = useState("");
 
@@ -26,6 +26,7 @@ function ImageManager() {
         const result = await ImagePicker.launchCameraAsync({ allowsEditing: true });
         if (!result.canceled) {
           setImage(result.assets[0].uri);
+          imageHandler(result.assets[0].uri);
         }
         console.log(result);
       } else {

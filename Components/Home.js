@@ -39,11 +39,12 @@ export default function Home({ navigation }) {
     };
   },[]);
 
-  function handleInputData(inputData) {
+  function handleInputData(data) {
     // declare a new js object
     const newGoal = {
-      text: inputData,
-      owner: user.uid
+      text: data.text,
+      owner: user.uid,
+      image: data.imageUri,
     };
     // write to the database
     writeToDB(newGoal, collectionName);
