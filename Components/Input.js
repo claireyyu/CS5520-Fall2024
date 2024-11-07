@@ -1,14 +1,17 @@
 import { Button, StyleSheet, Text, TextInput, View, Modal, Image } from "react-native";
 import React, { useState } from "react";
+import ImageManager from "./ImageManager";
 
 export default function Input({ textInputFocus, inputHandler, modalVisible, alertHandler }) {
   const [text, setText] = useState("");
   const [blur, setBlur] = useState(false);
   const [disabled, setDisabled] = useState(true);
+  const [imageUri, setImageUri] = useState("");
 
   function handleConfirm() {
     console.log("input.js: " + text);
-    inputHandler(text);
+    console.log("Image URI: " + imageUri);
+    inputHandler({ text, imageUri });
     setText("");
   }
 
@@ -24,6 +27,10 @@ export default function Input({ textInputFocus, inputHandler, modalVisible, aler
   function handleCancel() {
     alertHandler();
     setText("");
+  }
+
+  function handleImageUri(uri) {
+    setImageUri(uri);
   }
 
   return (
@@ -70,6 +77,7 @@ export default function Input({ textInputFocus, inputHandler, modalVisible, aler
           <View style={styles.buttonStyle}>
             <Button title="CANCEL" onPress={handleCancel}></Button>
           </View>   
+            <ImageManager imageHandler={handleImageUri} />
           <View style={styles.buttonStyle}>
             <Button title="CONFIRM" onPress={handleConfirm} disabled={disabled}></Button>
           </View>     

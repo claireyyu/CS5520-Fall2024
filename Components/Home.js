@@ -7,9 +7,13 @@ import GoalItem from "./GoalItem";
 import PressableButton from "./PressableButton";
 import { database } from "../Firebase/firebaseSetup";
 import { writeToDB, deleteFromDB, deleteAll } from "../Firebase/firestoreHelper";
-import { onSnapshot, collection, doc } from "firebase/firestore";
+import { onSnapshot, collection, doc, query, where } from "firebase/firestore";
+import { auth } from "../Firebase/firebaseSetup";
+import { storage } from "../Firebase/firebaseSetup";
+import { ref, uploadBytesResumable } from "firebase/storage";
 
 export default function Home({ navigation }) {
+  const user = auth.currentUser;
   const appName = "My app!";
   const [input, setInput] = useState("");
   const [goals, setGoals] = useState([]);
@@ -18,29 +22,53 @@ export default function Home({ navigation }) {
   
   // querySnapshot is an array of documentSnapshots
   useEffect(() => {
-    const unsubscribe = onSnapshot(collection(database, collectionName), (querySnapshot) => {
+
+    const unsubscribe = onSnapshot(query(collection(database, collectionName), where("owner", "==", user.uid)), (querySnapshot) => {
       const currGoals = [];
       querySnapshot.forEach((docSnapshot) => {
         const id = docSnapshot.id;
         currGoals.push({ ...docSnapshot.data(), "id": id });
       })
       setGoals(currGoals);
+    }, (error) => {
+    console.log("on snapshot", error);
+      Alert.alert(error);
     });
-    
+
     return () => {
       console.log("unsubscribing");
       unsubscribe();
     };
   },[]);
 
-  function handleInputData(inputData) {
+  async function handleImageData(uri) {
+    try {
+      const response = await fetch(uri);
+      if (!response.ok) {
+        throw new Error(`Response status: ${response.status}`);
+      }
+      const blob = await response.blob();
+      const imageName = uri.substring(uri.lastIndexOf('/') + 1);
+      const imageRef = await ref(storage, `images/${imageName}`)
+      const uploadResult = await uploadBytesResumable(imageRef, blob);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  function handleInputData(data) {
+    if (data.imageUri) {
+      handleImageData(data.imageUri);
+    }
     // declare a new js object
     const newGoal = {
-      text: inputData,
+      text: data.text,
+      owner: user.uid,
+      image: data.imageUri,
     };
     // write to the database
     writeToDB(newGoal, collectionName);
-    setInput(inputData);
+    setInput(data);
     setIsModalVisible(false);
   }
 
