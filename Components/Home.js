@@ -8,7 +8,9 @@ import PressableButton from "./PressableButton";
 import { database } from "../Firebase/firebaseSetup";
 import { writeToDB, deleteFromDB, deleteAll } from "../Firebase/firestoreHelper";
 import { onSnapshot, collection, doc, query, where } from "firebase/firestore";
-import {auth} from "../Firebase/firebaseSetup";
+import { auth } from "../Firebase/firebaseSetup";
+import { storage } from "../Firebase/firebaseSetup";
+import { ref, uploadBytesResumable } from "firebase/storage";
 
 export default function Home({ navigation }) {
   const user = auth.currentUser;
@@ -39,7 +41,25 @@ export default function Home({ navigation }) {
     };
   },[]);
 
+  async function handleImageData(uri) {
+    try {
+      const response = await fetch(uri);
+      if (!response.ok) {
+        throw new Error(`Response status: ${response.status}`);
+      }
+      const blob = await response.blob();
+      const imageName = uri.substring(uri.lastIndexOf('/') + 1);
+      const imageRef = await ref(storage, `images/${imageName}`)
+      const uploadResult = await uploadBytesResumable(imageRef, blob);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   function handleInputData(data) {
+    if (data.imageUri) {
+      handleImageData(data.imageUri);
+    }
     // declare a new js object
     const newGoal = {
       text: data.text,
@@ -48,7 +68,7 @@ export default function Home({ navigation }) {
     };
     // write to the database
     writeToDB(newGoal, collectionName);
-    setInput(inputData);
+    setInput(data);
     setIsModalVisible(false);
   }
 
