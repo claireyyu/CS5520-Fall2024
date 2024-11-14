@@ -12,6 +12,7 @@ import Profile from './Components/Profile';
 import PressableButton from './Components/PressableButton';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { signOut } from 'firebase/auth';
+import Map from './Components/Map';
 
 async function handleSignOut() {
   try {
@@ -67,6 +68,9 @@ const AppStack = (
     }}/>
     <Stack.Screen name="Details" component={GoalDetails} options={({route, navigation}) => ({
       title: route.params ? `${route.params.currentItem.text}` : 'More Details',
+    })} />
+    <Stack.Screen name="Map" component={Map} options={({route, navigation}) => ({
+    title: "Map",
     })} />
   </>
 )
