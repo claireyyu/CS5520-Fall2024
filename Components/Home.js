@@ -18,6 +18,7 @@ export default function Home({ navigation }) {
   const [input, setInput] = useState("");
   const [goals, setGoals] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [imageUri, setImageUri] = useState("");
   const collectionName = "goals";
   
   // querySnapshot is an array of documentSnapshots
@@ -43,33 +44,45 @@ export default function Home({ navigation }) {
 
   async function handleImageData(uri) {
     try {
+      let uploadURl = "";
+      //fetch the image data
       const response = await fetch(uri);
       if (!response.ok) {
-        throw new Error(`Response status: ${response.status}`);
+        throw new Error(`fetch error happened with status ${response.status}`);
       }
       const blob = await response.blob();
-      const imageName = uri.substring(uri.lastIndexOf('/') + 1);
-      const imageRef = await ref(storage, `images/${imageName}`)
+      const imageName = uri.substring(uri.lastIndexOf("/") + 1);
+      const imageRef = ref(storage, `images/${imageName}`);
       const uploadResult = await uploadBytesResumable(imageRef, blob);
-    } catch (error) {
-      console.error(error);
+      uploadURl = uploadResult.metadata.fullPath;
+      return uploadURl;
+    } catch (err) {
+      console.log("handle Image data ", err);
     }
   }
 
-  function handleInputData(data) {
-    if (data.imageUri) {
-      handleImageData(data.imageUri);
+  async function handleInputData(data) {
+    try {
+      //log the data to console
+      console.log("App ", data);
+      let imageUri = "";
+      if (data.imageUri) {
+        imageUri = await handleImageData(data.imageUri);
+      }
+      // declare a JS object
+      let newGoal = { text: data.text };
+      newGoal = { ...newGoal, owner: auth.currentUser.uid };
+      if (imageUri) {
+        newGoal = { ...newGoal, imageUri: imageUri };
+      }
+      console.log(newGoal);
+      // add the newGoal to db
+      //call writeToDB
+      writeToDB(newGoal, collectionName);
+      setIsModalVisible(false);
+    } catch (err) {
+      console.log("handle Input Data ", err);
     }
-    // declare a new js object
-    const newGoal = {
-      text: data.text,
-      owner: user.uid,
-      image: data.imageUri,
-    };
-    // write to the database
-    writeToDB(newGoal, collectionName);
-    setInput(data);
-    setIsModalVisible(false);
   }
 
   function handleModalVisibility() {
