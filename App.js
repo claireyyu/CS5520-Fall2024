@@ -13,7 +13,8 @@ import PressableButton from './Components/PressableButton';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { signOut } from 'firebase/auth';
 import Map from './Components/Map';
-
+import * as Notifications from 'expo-notifications';
+Notifications.setNotificationHandler({ handleNotification: async () => ({ shouldShowAlert: true}) });
 
 async function handleSignOut() {
   try {
