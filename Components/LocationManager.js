@@ -1,73 +1,100 @@
-import { StyleSheet, Text, View, Button, Alert, Image, Dimensions } from 'react-native'
-import React from 'react'
-import * as Location from 'expo-location'
-import Map from './Map'
-import { useState, useEffect } from 'react';
-import { useNavigation } from '@react-navigation/native';
+import {
+  Alert,
+  Button,
+  Dimensions,
+  Image,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
+import React, { useEffect, useState } from "react";
+// import { getCurrentPositionAsync } from "expo-location";
+import * as Location from "expo-location";
+import { useNavigation } from "@react-navigation/native";
+import { updateDB } from "../Firebase/firestoreHelper";
+import { auth } from "../Firebase/firebaseSetup";
 
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
+const windowWidth = Dimensions.get("window").width;
 
 export default function LocationManager() {
-
+  const [location, setLocation] = useState(null);
+  const [response, requestPermission] = Location.useForegroundPermissions();
   const navigation = useNavigation();
 
-  const [response, requestPermission] = Location.useForegroundPermissions();
-  const [location, setLocation] = useState(null);
 
   function chooseLocationHandler() {
-    navigation.navigate('Map');
+    navigation.navigate("Profile", { location });
   }
 
   async function verifyPermission() {
+    //check if user has granted permission return true
     try {
-      if (!response.granted) {
-        const granted = await requestPermission();
-        return granted.granted;
+      if (response.granted) {
+        return true;
       }
-      return true;
-    } catch {
-      console.log("Permission denied");
-      return false;
+      const permissionResponse = await requestPermission();
+      //else ask for permission
+      //return the granted property of the response
+      return permissionResponse.granted;
+    } catch (err) {
+      console.log("verify permission ", err);
     }
   }
-
   async function locateUserHandler() {
     try {
-      const hadPermission = await verifyPermission();
-      if (!hadPermission) {
-        Alert.alert("You need to give location permissions to use this feature.");
+      // call verifyPermission and only proceed if you have permission
+      const hasPermission = await verifyPermission();
+      if (!hasPermission) {
+        Alert.alert("You need to give location permission");
         return;
       }
-      const result = await Location.getCurrentPositionAsync();
-      // console.log("result: ", result);
-      setLocation({ latitude: result.coords.latitude, longitude: result.coords.longitude });
+      const locationResponse = await Location.getCurrentPositionAsync();
+      console.log(locationResponse);
+      setLocation({
+        latitude: locationResponse.coords.latitude,
+        longitude: locationResponse.coords.longitude,
+      });
+    } catch (err) {
+      console.log("locate user ", err);
     }
-    catch (error) {
-      console.log(error)
+  }
+  function chooseLocationHandler() {
+    if (location) {
+      navigation.navigate("Map", { location });
     }
   }
 
-  useEffect(() => {
-    if (location) {
-      console.log("location: ", location);
+  function saveLocationHandler() {
+    // setDoc with id: auth.currentid.uid
+    try {
+      updateDB(auth.currentUser.uid, { location }, "users");
+      console.log("Location saved successfully");
+    } catch (err) {
+      console.error("Error saving location", err);
     }
-  }, [location]);
+  }
 
   return (
     <View>
       <Button title="Locate Me" onPress={locateUserHandler} />
-      <Button title="Let me choose my location" onPress={chooseLocationHandler} />
-      {location && <Image source={{ uri: `https://maps.googleapis.com/maps/api/staticmap?center=${location.latitude},${location.longitude}&zoom=14&size=400x200&maptype=roadmap&markers=color:red%7Clabel:L%7C${location.latitude},${location.longitude}&key=${process.env.EXPO_PUBLIC_GoogleMapsApi}` }} style={styles.map} />}
+      <Button
+        title="Let me choose my location"
+        onPress={chooseLocationHandler}
+      />
+      {location && (
+        <Image
+          source={{
+            uri: `https://maps.googleapis.com/maps/api/staticmap?center=${location.latitude},${location.longitude}&zoom=14&size=400x200&maptype=roadmap&markers=color:red%7Clabel:L%7C${location.latitude},${location.longitude}&key=${process.env.EXPO_PUBLIC_GoogleMapsApi}`,
+          }}
+          style={styles.map}
+          alt="static map"
+        />
+      )}
+      <Button title="save my location" onPress={saveLocationHandler} />
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
-  map: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: windowWidth,
-    height: 200,
-  }
-})
+  map: { width: windowWidth, height: 200 },
+});

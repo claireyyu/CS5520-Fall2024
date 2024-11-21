@@ -1,4 +1,4 @@
-import { collection, addDoc, deleteDoc, doc, getDocs, updateDoc } from "firebase/firestore"; 
+import { collection, addDoc, deleteDoc, doc, getDocs, updateDoc, setDoc } from "firebase/firestore"; 
 import { database } from "./firebaseSetup";
 
 export async function writeToDB(data, collectionName) {
@@ -64,3 +64,11 @@ export const updateWarning = async (dataId, collectionName) => {
     console.error("Error updating warning: ", error);
   }
 };
+
+export async function updateDB(id, data, collectionName) {
+  try {
+    await setDoc(doc(database, collectionName, id), data, { merge: true });
+  } catch (err) {
+    console.log("update DB ", err);
+  }
+}

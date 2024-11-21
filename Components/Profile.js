@@ -1,9 +1,10 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { auth } from '../Firebase/firebaseSetup'
 import LocationManager from './LocationManager'
+import { useState } from 'react'
 
-const Profile = () => {
+const Profile = ({ route }) => {
   const user = auth.currentUser;
 
   return (
