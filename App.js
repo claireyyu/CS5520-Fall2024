@@ -14,6 +14,7 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import { signOut } from 'firebase/auth';
 import Map from './Components/Map';
 import * as Notifications from 'expo-notifications';
+import Constants from 'expo-constants';
 Notifications.setNotificationHandler({ handleNotification: async () => ({ shouldShowAlert: true}) });
 
 async function handleSignOut() {
@@ -79,6 +80,16 @@ const AppStack = (
 
 export default function App() {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+
+  useEffect(() => {
+    async function getToken() {
+      const token = await Notifications.getExpoPushTokenAsync({
+        projectId: Constants.expoConfig.extra.eas.projectId,
+      });
+      console.log("Token: ", token);
+    }
+    getToken();
+  }, []);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
