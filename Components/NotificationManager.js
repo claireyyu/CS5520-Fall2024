@@ -22,13 +22,20 @@ export default function NotificationManager() {
   async function sendNotification() {
     try {// send notification
       const hasPermission = await verifyPermission();
-
+      if (!hasPermission) {
+        Alert.alert("You need to give notification permission");
+        return;
+      }
     const id = await Notifications.scheduleNotificationAsync({
       content: {
         title: 'This is a reminder!',
-        body: 'Hello! How are you doing?',
+        body: 'A notification was sent to you.',
       },
-      trigger: {seconds: 2},
+      trigger: {
+        seconds: 3,
+        type: Notifications.SchedulableTriggerInputTypes.TIME_INTERVAL,
+        
+      },
     })
       console.log("Notification sent with id: ", id);
     } catch (e) {
