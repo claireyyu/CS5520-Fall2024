@@ -1,4 +1,4 @@
-import { collection, addDoc, deleteDoc, doc, getDocs, updateDoc, setDoc } from "firebase/firestore"; 
+import { collection, addDoc, deleteDoc, doc, getDocs, updateDoc, setDoc, getDoc } from "firebase/firestore"; 
 import { database } from "./firebaseSetup";
 
 export async function writeToDB(data, collectionName) {
@@ -70,5 +70,19 @@ export async function updateDB(id, data, collectionName) {
     await setDoc(doc(database, collectionName, id), data, { merge: true });
   } catch (err) {
     console.log("update DB ", err);
+  }
+}
+
+export async function readOneDoc(id, collectionName) {
+  try {
+    const docSnap = await getDoc(doc(database, collectionName, id));
+    if (docSnap.exists()) {
+      console.log("Read one doc:", docSnap.data());
+      return docSnap.data();
+    } else {
+      console.log("No such document!");
+    }
+  } catch (err) {
+    console.error("Error getting document:", err);
   }
 }

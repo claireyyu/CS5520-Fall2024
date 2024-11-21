@@ -11,7 +11,7 @@ import React, { useEffect, useState } from "react";
 // import { getCurrentPositionAsync } from "expo-location";
 import * as Location from "expo-location";
 import { useNavigation } from "@react-navigation/native";
-import { updateDB } from "../Firebase/firestoreHelper";
+import { updateDB, readOneDoc } from "../Firebase/firestoreHelper";
 import { auth } from "../Firebase/firebaseSetup";
 
 const windowWidth = Dimensions.get("window").width;
@@ -21,6 +21,20 @@ export default function LocationManager() {
   const [response, requestPermission] = Location.useForegroundPermissions();
   const navigation = useNavigation();
 
+  useEffect(() => {
+    async function readLocation() {
+      try {
+        const doc = await readOneDoc(auth.currentUser.uid, "users");
+        if (doc && doc.location) {
+          setLocation(doc.location);
+        }
+      } catch (err) {
+        console.error("Error reading location", err);
+      }
+    }
+
+    readLocation();
+  }, []);
 
   function chooseLocationHandler() {
     navigation.navigate("Profile", { location });
@@ -68,6 +82,7 @@ export default function LocationManager() {
     // setDoc with id: auth.currentid.uid
     try {
       updateDB(auth.currentUser.uid, { location }, "users");
+      navigation.navigate("Home");
       console.log("Location saved successfully");
     } catch (err) {
       console.error("Error saving location", err);
@@ -90,7 +105,7 @@ export default function LocationManager() {
           alt="static map"
         />
       )}
-      <Button title="save my location" onPress={saveLocationHandler} />
+      <Button disabled={!location} title="save my location" onPress={saveLocationHandler} />
     </View>
   );
 }
