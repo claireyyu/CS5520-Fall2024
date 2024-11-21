@@ -79,7 +79,6 @@ export default function LocationManager() {
   }
 
   function saveLocationHandler() {
-    // setDoc with id: auth.currentid.uid
     try {
       updateDB(auth.currentUser.uid, { location }, "users");
       navigation.navigate("Home");
@@ -105,7 +104,7 @@ export default function LocationManager() {
           alt="static map"
         />
       )}
-      <Button disabled={!location} title="save my location" onPress={saveLocationHandler} />
+      <Button disabled={!location} title="Save my location" onPress={saveLocationHandler} />
     </View>
   );
 }
