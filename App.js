@@ -14,6 +14,7 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import { signOut } from 'firebase/auth';
 import Map from './Components/Map';
 
+
 async function handleSignOut() {
   try {
     const data = await signOut(auth);

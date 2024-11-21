@@ -3,6 +3,7 @@ import React, { useEffect } from 'react'
 import { auth } from '../Firebase/firebaseSetup'
 import LocationManager from './LocationManager'
 import { useState } from 'react'
+import NotificationManager from './NotificationManager'
 
 const Profile = ({ route }) => {
   const user = auth.currentUser;
@@ -12,6 +13,7 @@ const Profile = ({ route }) => {
       <Text>{user.email}</Text>
       <Text>{user.uid}</Text>
       <LocationManager />
+      <NotificationManager />
     </View>
   )
 }
